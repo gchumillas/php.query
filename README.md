@@ -4,7 +4,7 @@ xmlquery
 The XMLQuery class parses and manipulates XML or HTML documents in similar way as jQuery does. It uses CSS selectors instead of XPath.
 
 
-I. Creating instances
+I. Creating instances:
 ```php
 // creates an instance from a string
 $xml = new XMLQuery('<root>hello there</root>');
