@@ -18,7 +18,7 @@ $xml = new XMLQuery('/home/username/my-file.xml');
 
 II. Traversing nodes:
 ```
-$xml = new XMLQuery('<library><books><item id="1" title="One" /><item id="2" title="Two" /></books></library>');
+$xml = new XMLQuery('<root><books><item id="1" title="One" /><item id="2" title="Two" /></books></root>');
 
 // use the 'select' function to get nodes from a CSS expression
 // use the 'attr' function to get attributes from a node
@@ -40,7 +40,7 @@ echo "Number of items: " . count($items);
 
 III. Manipulation:
 ```
-$xml = new XMLQuery('<library><books><item id="1" title="One" /><item id="2" title="Two" /></books></library>');
+$xml = new XMLQuery('<root><books><item id="1" title="One" /><item id="2" title="Two" /></books></root>');
 $books = $xml->select('books');
 
 // changes an attribute and adds a new one
@@ -67,7 +67,7 @@ $books->clear();
 
 IV. Printing nodes
 ```
-$xml = new XMLQuery('<library><books><item id="1" title="One" /><item id="2" title="Two" /></books></library>');
+$xml = new XMLQuery('<root><books><item id="1" title="One" /><item id="2" title="Two" /></books></root>');
 $item = $xml->select('books item[id=2]');
 
 // prints the string representation of a node
