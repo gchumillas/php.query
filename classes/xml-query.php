@@ -453,12 +453,16 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
     
     /**
      * Gets the value of the current element.
+     * @param $value = NULL
      * @return string
      */
-    public function text() {
+    public function text($value = NULL) {
         $ret = "";
         $current = current($this->items);
         if ($current !== FALSE) {
+            if (func_num_args() > 0) {
+                $current->nodeValue = $value;
+            }
             $ret = $current->nodeValue;
         }
         return $ret;
