@@ -6,7 +6,7 @@
  * @package xml-query
  */
 
-require_once dirname(__FILE__) . "/css-query.php";
+require_once dirname(__DIR__) . "/xml-query/css-query.php";
 
 /**
  * class XMLQuery

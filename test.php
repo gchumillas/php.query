@@ -1,6 +1,6 @@
 <?php
 header("Content-Type: text/plain; charset=UTF-8");
-require_once "classes/xml-query.php";
+require_once "classes/xml-query/xml-query.php";
 
 $root = new XMLQuery("test.xml");
 
