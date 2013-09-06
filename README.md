@@ -5,7 +5,7 @@ The XMLQuery class parses and manipulates XML or HTML documents in similar way a
 
 
 I. Creating instances
-```
+```php
 // creates an instance from a string
 $xml = new XMLQuery('<root>hello there</root>');
 
@@ -17,7 +17,7 @@ $xml = new XMLQuery('/home/username/my-file.xml');
 ```
 
 II. Traversing nodes:
-```
+```php
 $xml = new XMLQuery('<root><books><item id="1" title="One" /><item id="2" title="Two" /></books></root>');
 
 // use the 'select' function to get nodes from a CSS expression
@@ -39,7 +39,7 @@ echo "Number of items: " . count($items);
 ```
 
 III. Manipulation:
-```
+```php
 $xml = new XMLQuery('<root><books><item id="1" title="One" /><item id="2" title="Two" /></books></root>');
 $books = $xml->select('books');
 
@@ -66,7 +66,7 @@ $books->clear();
 ```
 
 IV. Printing nodes
-```
+```php
 $xml = new XMLQuery('<root><books><item id="1" title="One" /><item id="2" title="Two" /></books></root>');
 $item = $xml->select('books item[id=2]');
 
