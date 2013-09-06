@@ -27,7 +27,7 @@ foreach ($items as $item) {
     echo "Id: " . $item->attr("id") . ", Title: " . $item->attr("title") . "\n";
 }
 
-// the previous example can also be written in the following modern way
+// the previous example can also be written in the following and modern way
 // the functions 'select' and 'attr' are called internally
 $items = $xml('books item');
 foreach ($items as $item) {
