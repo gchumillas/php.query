@@ -100,9 +100,7 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
      * @param array|DOMNode|DOMNodeList $items
      */
     private function constructor2($object, $items = array()) {
-        $this->doc = $object->doc;
-        
-        if (!is_array($items) && !($items instanceof DOMNode) && !($items instanceof DOMNodeList)) {
+        if (!(is_array($items) || $items instanceof DOMNode || $items instanceof DOMNodeList)) {
             $type = is_object($items)? get_class($items) : gettype($items);
             throw new InvalidArgumentException("Expects parameter 2 to be array|DOMNode|DOMNodeList, $type given");
         }
@@ -110,6 +108,7 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
         if (func_num_args() > 1) {
             $this->constructor3($items);
         } else {
+            $this->doc = $object->doc;
             $this->items = $object->items;
         }
     }
@@ -247,21 +246,11 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
     }
     
     /**
-     * Gets the internal DOMNode objects.
-     * You will not need to use this function in most cases.
-     * @return array of DOMNode objects
-     */
-    public function getDOMNodeItems() {
-        return $this->items;
-    }
-    
-    /**
-     * Gets the internal first DOMNode object.
-     * You will not need to use this function in most cases.
+     * Gets the current DOMNode object.
      * @return DOMNode
      */
     public function getDOMNode() {
-        return count($this->items) > 0? $this->items[0] : NULL;
+        return current($this->items);
     }
     
     /**
@@ -287,7 +276,7 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
     
     /**
      * Gets node path of the current node.
-     * @return string an XPath expression
+     * @return string XPath expression
      */
     public function path() {
         $ret = "";
@@ -490,6 +479,17 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
     }
     
     /**
+     * Is the current node equal to a given object?
+     * @param mixed $object
+     * @return boolean
+     */
+    public function equal($object) {
+        $node0 = $this->getDOMNode();
+        $node1 = $object instanceof XMLQuery? $object->getDOMNode() : NULL;
+        return $node0 !== NULL && $node1 !== NULL && $node0->isSameNode($node1);
+    }
+    
+    /**
      * Magic 'get' method.
      * @param string $name
      * @return string
@@ -533,7 +533,12 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
      * @return boolean|XMLQuery
      */
     public function current() {
-        return current($this->items) !== FALSE? $this : FALSE;
+        $ret = FALSE;
+        $current = current($this->items);
+        if ($current !== FALSE) {
+            $ret = new XMLQuery($this, $current);
+        }
+        return $ret;
     }
 
     /**
@@ -541,7 +546,12 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
      * @return XMLQuery
      */
     public function next() {
-        return next($this->items) !== FALSE? $this : FALSE;
+        $ret = FALSE;
+        $current = next($this->items);
+        if ($current !== FALSE) {
+            $ret = new XMLQuery($this, $current);
+        }
+        return $ret;
     }
 
     /**
