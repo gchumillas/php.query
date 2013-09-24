@@ -6,7 +6,7 @@
  * @package xml-query
  */
 
-require_once dirname(__DIR__) . "/xml-query/css-query.php";
+require_once dirname(__DIR__) . "/css-parser/css-parser.php";
 
 /**
  * class XMLQuery
@@ -199,6 +199,7 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
         
         $this->doc = new DOMDocument("1.0", $charset);
         $this->doc->preserveWhiteSpace = FALSE;
+        $this->doc->formatOutput = TRUE;
 
         $success = FALSE;
         if ($mimetype == "text/html") {
@@ -342,8 +343,7 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
             $ret = new XMLQuery($this, array());
         } else {
             // creates an node from a list of DOMNode objects
-            $cssquery = new CSSQuery($current->ownerDocument);
-            $items = $cssquery->query($query, $current);
+            $items = CSSHelper::select($current, $query);
             $ret = new XMLQuery($this, $items);
         }
         return $ret;
