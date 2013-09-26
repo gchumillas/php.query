@@ -2,34 +2,43 @@
 /**
  * This file contains the XMLQuery class.
  * 
- * @author Gonzalo Chumillas <gonzalo@soloproyectos.com>
- * @package xml-query
+ * PHP Version 5.3
+ * 
+ * @category PQuery
+ * @package  XML.PQuery
+ * @author   Gonzalo Chumillas <gonzalo@soloproyectos.com>
+ * @license  https://github.com/cequiel/xmlquery/blob/master/LICENSE BSD 2-Clause License
+ * @link     https://github.com/cequiel/cssparser
  */
 
 require_once dirname(__DIR__) . "/css-parser/css-parser.php";
 
 /**
  * class XMLQuery
- * 
  * Parses an XML document.
  * 
- * @package xml-query
+ * @category PQuery
+ * @package  XML.PQuery
+ * @author   Gonzalo Chumillas <gonzalo@soloproyectos.com>
+ * @license  https://github.com/cequiel/xmlquery/blob/master/LICENSE BSD 2-Clause License
+ * @link     https://github.com/cequiel/cssparser
  */
-class XMLQuery implements Countable, Iterator, ArrayAccess {
+class XMLQuery implements Countable, Iterator, ArrayAccess
+{
     /**
      * @var array of DOMNode
      */
-    private $items;
+    private $_items;
     
     /**
      * @var array of string
      */
-    private $errors;
+    private $_errors;
     
     /**
      * @var DOMDocument
      */
-    private $doc;
+    private $_doc;
     
     /**
      * Creates an instance of XMLQuery. Examples:
@@ -41,25 +50,30 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
      * new XMLQuery("/home/john/myfile.xml");
      * </code>
      * 
-     * @param mixed $param1
-     * @param mixed $param2
-     * @param mixed $param3
+     * @param mixed $param1 = null The object to be examined.
+     * @param mixed $param2 = null This parameter depends on the first parameter.
+     * @param mixed $param3 = null This parameter depends on the first parameter.
      */
-    public function __construct($param1 = NULL, $param2 = NULL, $param3 = NULL) {
-        $this->items = array();
-        $this->errors = array();
+    public function __construct($param1 = null, $param2 = null, $param3 = null)
+    {
+        $this->_items = array();
+        $this->_errors = array();
         
         if (is_string($param1)) {
-            call_user_func_array(array($this, "constructor1"), func_get_args());
-        } else
-        if ($param1 instanceof XMLQuery) {
-            call_user_func_array(array($this, "constructor2"), func_get_args());
-        } else
-        if (is_array($param1) || $param1 instanceof DOMNode || $param1 instanceof DOMNodeList) {
-            call_user_func_array(array($this, "constructor3"), func_get_args());
+            call_user_func_array(array($this, "_constructor1"), func_get_args());
+        } elseif ($param1 instanceof XMLQuery) {
+            call_user_func_array(array($this, "_constructor2"), func_get_args());
+        } elseif (is_array($param1)
+            || $param1 instanceof DOMNode
+            || $param1 instanceof DOMNodeList
+        ) {
+            call_user_func_array(array($this, "_constructor3"), func_get_args());
         } else {
             $type = is_object($param1)? get_class($param1) : gettype($param1);
-            throw new InvalidArgumentException("Expects parameter 1 to be string|array|DOMNode|DOMNodeList|XMLQuery, $type given");
+            throw new InvalidArgumentException(
+                "Expects parameter 1 to be " .
+                "string|array|DOMNode|DOMNodeList|XMLQuery, $type given"
+            );
         }
     }
     
@@ -72,16 +86,20 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
      * new XMLQuery("<root><text>This is a well formed XML document</text></root>");
      * </code>
      * 
-     * @param string $source A filename, a url or a string containing an XML document.
-     * @param string $mimetype = NULL Tries to guess the mimetype from the source. It assumes "text/xml" otherwise.
-     * @param string $charset = NULL Tries to guess the charset from the source. It assumes "UTF-8" otherwise.
+     * @param string $source   Filename, url or string.
+     * @param string $mimetype = null Document mimetype. Autodetected.
+     * @param string $charset  = null Document charset. Autodetected.
+     * 
+     * @return void
      */
-    private function constructor1($source, $mimetype = NULL, $charset = NULL) {
+    private function _constructor1($source, $mimetype = null, $charset = null)
+    {
         $this->load($source, $mimetype, $charset);
     }
     
     /**
-     * Wraps an XMLQuery object, inherits its behaviours and creates new ones. For example:
+     * Wraps an XMLQuery object, inherits its behaviours and creates new ones.
+     * For example:
      * 
      * <code>
      * class MyCustomQuery extends XMLQuery {
@@ -91,105 +109,117 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
      *     }
      * }
      * 
-     * // this extends the XMLQuery behaviours by adding a function called "getSomeThings"
+     * // this extends the XMLQuery behaviours by
+     * // adding a function called "getSomeThings"
      * $query = new MyCustomQuery($root);
      * $query->getSomeThings();
      * </code>
      * 
-     * @param XMLQuery $object
-     * @param array|DOMNode|DOMNodeList $items
+     * @param XMLQuery                  $object The object to be wrapped.
+     * @param array|DOMNode|DOMNodeList $items  = array() List of DOMNode objects.
+     * 
+     * @return void
      */
-    private function constructor2($object, $items = array()) {
-        if (!(is_array($items) || $items instanceof DOMNode || $items instanceof DOMNodeList)) {
+    private function _constructor2($object, $items = array())
+    {
+        if (!is_array($items)
+            && !$items instanceof DOMNode
+            && !$items instanceof DOMNodeList
+        ) {
             $type = is_object($items)? get_class($items) : gettype($items);
-            throw new InvalidArgumentException("Expects parameter 2 to be array|DOMNode|DOMNodeList, $type given");
+            throw new InvalidArgumentException(
+                "Expects parameter 2 to be array|DOMNode|DOMNodeList, $type given"
+            );
         }
         
         if (func_num_args() > 1) {
             $this->constructor3($items);
         } else {
-            $this->doc = $object->doc;
-            $this->items = $object->items;
+            $this->_doc = $object->doc;
+            $this->_items = $object->items;
         }
     }
     
     /**
      * Creates an instance from one or more DOMNode objects.
-     * @param array|DOMNode|DOMNodeList $items
+     * 
+     * @param array|DOMNode|DOMNodeList $items = array() List of DOMNode objects.
+     * 
+     * @return void
      */
-    private function constructor3($items = array()) {
+    private function _constructor3($items = array())
+    {
         if ($items instanceof DOMNode) {
-            $this->items = array($items);
-            $this->doc = $items->ownerDocument;
+            $this->_items = array($items);
+            $this->_doc = $items->ownerDocument;
         } else {
-            $this->items = array();
+            $this->_items = array();
             foreach ($items as $item) {
-                array_push($this->items, $item);
-                $this->doc = $item->ownerDocument;
+                array_push($this->_items, $item);
+                $this->_doc = $item->ownerDocument;
             }
         }
     }
     
     /**
-     *
-     * @param string $xpath
-     * @return XMLQuery
+     * Loads an XML or HTML document. Automatically detects the content type.
+     * 
+     * @param string $source   An string, url or filename.
+     * @param string $mimetype = null Document mimetype. Autodetected.
+     * @param string $charset  = null Document charset. Autodetected.
+     * 
+     * @return void
      */
-    public function __invoke($xpath) {
-        return $this->select($xpath);
-    }
-    
-    /**
-     * Load an XML or HTML document. Automatically detects the content type.
-     * @param string $source
-     * @param string $mimetype
-     * @param string $charset 
-     */
-    public function load($source, $mimetype = NULL, $charset = NULL) {
-        $this->items = array();
-        $this->errors = array();
+    public function load($source, $mimetype = null, $charset = null)
+    {
+        $this->_items = array();
+        $this->_errors = array();
         $errors = libxml_get_errors();
         $offset = count($errors);
-        $use_internal_errors = libxml_use_internal_errors(TRUE);
+        $use_internal_errors = libxml_use_internal_errors(true);
         
-        $content = NULL;
-        if ($this->isURL($source)) {
+        $content = null;
+        if ($this->_isURL($source)) {
             $load_header = (strlen($mimetype) == 0) || (strlen($charset) == 0);
             
             $ch = curl_init();
             $timeout = 5;
             curl_setopt($ch, CURLOPT_URL, $source);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_HEADER, $load_header);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 120);
             $result = curl_exec($ch);
             curl_close($ch);
 
             if ($load_header) {
-                $headers = NULL;
+                $headers = null;
                 $separator = "\r\n\r\n";
                 $pos = strpos($result, $separator);
-                if ($pos !== FALSE) {
+                if ($pos !== false) {
                     $headers = substr($result, 0, $pos);
                     $content = substr($result, $pos + strlen($separator));
                 }
                 
                 $lines = explode("\r\n", $headers);
                 foreach ($lines as $line) {
-                    if (preg_match('@Content-Type:\s*([\w/+]+)(;\s*charset=(\S+))?@i', $line, $matches) > 0) {
+                    $regexp = '@Content-Type:\s*([\w/+]+)(;\s*charset=(\S+))?@i';
+                    if (preg_match($regexp, $line, $matches) > 0) {
                         if (strlen($mimetype) == 0) {
-                            $mimetype = array_key_exists(1, $matches)? $matches[1]: NULL;
+                            $mimetype = array_key_exists(1, $matches)
+                                ? $matches[1]
+                                : null;
                         }
                         if (strlen($charset) == 0) {
-                            $charset = array_key_exists(3, $matches)? $matches[3]: NULL;
+                            $charset = array_key_exists(3, $matches)
+                                ? $matches[3]
+                                : null;
                         }
                     }
                 }
             } else {
                 $content = $result;
             }
-        } else
-        if (!is_file($source)) {
+        } elseif (!is_file($source)) {
             $content = $source;
         }
         
@@ -197,71 +227,89 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
             $charset = "iso-8859-1";
         }
         
-        $this->doc = new DOMDocument("1.0", $charset);
-        $this->doc->preserveWhiteSpace = FALSE;
-        $this->doc->formatOutput = TRUE;
+        $this->_doc = new DOMDocument("1.0", $charset);
+        $this->_doc->preserveWhiteSpace = false;
+        $this->_doc->formatOutput = true;
 
-        $success = FALSE;
+        $success = false;
         if ($mimetype == "text/html") {
-            $success = $content !== NULL? $this->doc->loadHTML($content) : $this->doc->loadHTMLFile($source);
+            $success = $content !== null
+                ? $this->_doc->loadHTML($content)
+                : $this->_doc->loadHTMLFile($source);
         } else {
             $mimetype = "text/xml";
-            $success = $content !== NULL? $this->doc->loadXML($content) : $this->doc->load($source);
+            $success = $content !== null
+                ? $this->_doc->loadXML($content)
+                : $this->_doc->load($source);
         }
         
         if (!$success) {
             throw new DomainException("Invalid document. Assumed $mimetype");
         } else {
-            $this->items = array($this->doc->documentElement);
+            $this->_items = array($this->_doc->documentElement);
         }
         
-        $this->errors = array_slice(libxml_get_errors(), $offset);
+        $this->_errors = array_slice(libxml_get_errors(), $offset);
         libxml_use_internal_errors($use_internal_errors);
     }
     
     /**
      * Load a HTML document
-     * @param string $source
-     * @param string $charset
+     * 
+     * @param string $source  A filename containing an XML or HTML document.
+     * @param string $charset = null Document charset. Autodetected.
+     * 
+     * @return void
      */
-    public function loadHTML($source, $charset = NULL) {
+    public function loadHTML($source, $charset = null)
+    {
         $this->load($source, "text/html", $charset);
     }
     
     /**
      * Load an XML document
-     * @param string $source
-     * @param string $charset
+     * 
+     * @param string $source  An string representing an XML or HTML document.
+     * @param string $charset = null Document charset. Autodetected.
+     * 
+     * @return void
      */
-    public function loadXML($source, $charset = NULL) {
+    public function loadXML($source, $charset = null)
+    {
         $this->load($source, "text/xml", $charset);
     }
     
     /**
      * Gets the internal owner document.
      * You will not need to use this function in most cases.
+     * 
      * @return DOMDocument
      */
-    public function getDOMDocument() {
-        return $this->doc;
+    public function getDOMDocument()
+    {
+        return $this->_doc;
     }
     
     /**
      * Gets the current DOMNode object.
+     * 
      * @return DOMNode
      */
-    public function getDOMNode() {
-        return current($this->items);
+    public function getDOMNode()
+    {
+        return current($this->_items);
     }
     
     /**
      * Gets the line number of the current node.
+     * 
      * @return int
      */
-    public function line() {
+    public function line()
+    {
         $ret = 0;
-        $current = current($this->items);
-        if ($current !== FALSE) {
+        $current = current($this->_items);
+        if ($current !== false) {
             $ret = $current->getLineNo();
         }
         return $ret;
@@ -269,20 +317,24 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
     
     /**
      * Gets the filename of the document.
+     * 
      * @return string
      */
-    public function filename() {
-        return $this->doc != NULL? realpath($this->doc->documentURI) : "";
+    public function filename()
+    {
+        return $this->_doc != null? realpath($this->_doc->documentURI) : "";
     }
     
     /**
      * Gets node path of the current node.
+     * 
      * @return string XPath expression
      */
-    public function path() {
+    public function path()
+    {
         $ret = "";
-        $current = current($this->items);
-        if ($current !== FALSE) {
+        $current = current($this->_items);
+        if ($current !== false) {
             $ret = $current->getNodePath();
         }
         return $ret;
@@ -290,21 +342,25 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
     
     /**
      * Gets errors.
+     * 
      * @return array
      */
-    public function errors() {
-        return $this->errors;
+    public function errors()
+    {
+        return $this->_errors;
     }
     
     /**
      * Gets the parent of the current node.
-     * This function returns NULL if the current node has no parent.
+     * This function returns null if the current node has no parent.
+     * 
      * @return XMLQuery
      */
-    public function parent() {
-        $ret = NULL;
-        $current = current($this->items);
-        if ($current !== FALSE && !($current->parentNode instanceof DOMDocument)) {
+    public function parent()
+    {
+        $ret = null;
+        $current = current($this->_items);
+        if ($current !== false && !($current->parentNode instanceof DOMDocument)) {
             $ret = new XMLQuery($this, $current->parentNode);
         }
         return $ret;
@@ -312,15 +368,20 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
     
     /**
      * Gets or sets an arbitrary value.
-     * @param string $name
-     * @param string $value = NULL
+     * 
+     * @param string $name  Identifier.
+     * @param mixed  $value = null The value to be saved.
+     * 
      * @return mixed
      */
-    public function data($name, $value = NULL) {
-        $ret = NULL;
-        $current = current($this->items);
-        if ($current !== FALSE) {
-            $data = $current->hasAttribute("__data__")? unserialize($current->getAttribute("__data__")) : array();
+    public function data($name, $value = null)
+    {
+        $ret = null;
+        $current = current($this->_items);
+        if ($current !== false) {
+            $data = $current->hasAttribute("__data__")
+                ? unserialize($current->getAttribute("__data__"))
+                : array();
             if (func_num_args() > 1) {
                 $data[$name] = $value;
                 $current->setAttribute("__data__", serialize($data));
@@ -331,14 +392,18 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
     }
     
     /**
-     * Evaluates the given CSS expression and returns an XMLQuery containing all nodes matching it.
-     * @param string $query
+     * Evaluates the given CSS expression and returns
+     * an XMLQuery containing all nodes matching it.
+     * 
+     * @param string $query CSS selector expression.
+     * 
      * @return XMLQuery
      */
-    public function select($query) {
-        $ret = NULL;
-        $current = current($this->items);
-        if ($current === FALSE) {
+    public function select($query)
+    {
+        $ret = null;
+        $current = current($this->_items);
+        if ($current === false) {
             // creates an "empty" node
             $ret = new XMLQuery($this, array());
         } else {
@@ -351,11 +416,13 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
     
     /**
      * Clears the current element.
+     * 
      * @return XMLQuery
      */
-    public function clear() {
-        $current = current($this->items);
-        if ($current !== FALSE) {
+    public function clear()
+    {
+        $current = current($this->_items);
+        if ($current !== false) {
             while ($current->hasChildNodes()) {
                 $current->removeChild($current->firstChild);
             }
@@ -365,13 +432,15 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
     
     /**
      * Removes the current element.
+     * 
      * @return XMLQuery
      */
-    public function remove() {
-        $current = current($this->items);
-        if ($current !== FALSE) {
+    public function remove()
+    {
+        $current = current($this->_items);
+        if ($current !== false) {
             $parent = $current->parentNode;
-            if ($parent !== NULL) {
+            if ($parent !== null) {
                 $parent->removeChild($current);
             }
         }
@@ -381,13 +450,17 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
     
     /**
      * Inserts a new child at the end of the current element.
-     * @param XMLQuery|string $object
+     * 
+     * @param XMLQuery|string $object The node to be inserted at the end.
+     * 
+     * @return XMLQuery
      */
-    public function append($object) {
-        $current = current($this->items);
-        if ($current !== FALSE) {
+    public function append($object)
+    {
+        $current = current($this->_items);
+        if ($current !== false) {
             $str = $object instanceof XMLQuery? $object->html() : $object;
-            $node = $this->doc->createDocumentFragment();
+            $node = $this->_doc->createDocumentFragment();
             $node->appendXML($str);
             $current->appendChild($node);
         }
@@ -396,13 +469,17 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
     
     /**
      * Inserts a new child at the beginning of the current element.
-     * @param XMLQuery|string $object
+     * 
+     * @param XMLQuery|string $object The node to be inserted at the beggining.
+     * 
+     * @return XMLQuery
      */
-    public function prepend($object) {
-        $current = current($this->items);
-        if ($current !== FALSE) {
+    public function prepend($object)
+    {
+        $current = current($this->_items);
+        if ($current !== false) {
             $str = $object instanceof XMLQuery? $object->html() : $object;
-            $node = $this->doc->createDocumentFragment();
+            $node = $this->_doc->createDocumentFragment();
             $node->appendXML($str);
             $current->insertBefore($node, $current->firstChild);
         }
@@ -411,12 +488,14 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
 
     /**
      * Returns the more accurate name for the current node type.
+     * 
      * @return string
      */
-    public function name() {
+    public function name()
+    {
         $ret = "";
-        $current = current($this->items);
-        if ($current !== FALSE) {
+        $current = current($this->_items);
+        if ($current !== false) {
             $ret = $current->nodeName;
         }
         return $ret;
@@ -424,14 +503,17 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
 
     /**
      * Gets or sets an attribute.
-     * @param string $name
-     * @param string $value (optional)
+     * 
+     * @param string $name  Attribute name.
+     * @param string $value = null The value to be saved.
+     * 
      * @return string
      */
-    public function attr($name, $value = NULL) {
+    public function attr($name, $value = null)
+    {
         $ret = "";
-        $current = current($this->items);
-        if ($current !== FALSE) {
+        $current = current($this->_items);
+        if ($current !== false) {
             if (func_num_args() > 1) {
                 $current->setAttribute($name, $value);
             }
@@ -442,13 +524,16 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
     
     /**
      * Gets the value of the current element.
-     * @param $value = NULL
+     * 
+     * @param string $value = null The value to be saved.
+     * 
      * @return string
      */
-    public function text($value = NULL) {
+    public function text($value = null)
+    {
         $ret = "";
-        $current = current($this->items);
-        if ($current !== FALSE) {
+        $current = current($this->_items);
+        if ($current !== false) {
             if (func_num_args() > 0) {
                 $current->nodeValue = $value;
             }
@@ -458,70 +543,57 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
     }
     
     /**
-     * Returns the XML representation of the node
+     * Returns the XML representation of the node.
+     * 
      * @return string
      */
-    public function html() {
+    public function html()
+    {
         $ret = "";
-        $current = current($this->items);
-        if ($current !== FALSE) {
+        $current = current($this->_items);
+        if ($current !== false) {
             $ret = $current->ownerDocument->saveXML($current);
         }
         return $ret;
     }
     
     /**
-     * Returns the XML representation of the node
+     * Returns the XML representation of the node.
+     * 
      * @return string
      */
-    public function xml() {
+    public function xml()
+    {
         return $this->html();
     }
     
     /**
      * Is the current node equal to a given object?
-     * @param mixed $object
+     * 
+     * @param mixed $object The object to be compared.
+     * 
      * @return boolean
      */
-    public function equal($object) {
+    public function equal($object)
+    {
         $node0 = $this->getDOMNode();
-        $node1 = $object instanceof XMLQuery? $object->getDOMNode() : NULL;
-        return $node0 !== NULL && $node1 !== NULL && $node0->isSameNode($node1);
+        $node1 = $object instanceof XMLQuery
+            ? $object->getDOMNode()
+            : null;
+        return $node0 !== null && $node1 !== null && $node0->isSameNode($node1);
     }
     
     /**
-     * Magic 'get' method.
-     * @param string $name
-     * @return string
-     */
-    public function __get($name) {
-        return $this->attr($name);
-    }
-    
-    /**
-     * Magic 'set' method.
-     * @param string $name
-     * @param string $value
-     */
-    public function __set($name, $value) {
-        $this->attr($name, $value);
-    }
-    
-    /**
-     * The value of this node, depending on its type.
-     * @return string
-     */
-    public function __toString() {
-        return $this->text();
-    }
-    
-    /**
-     * Returns TRUE if the string is a URL, FALSE otherwise.
-     * @param string $str
+     * Returns true if the string is a URL, false otherwise.
+     * 
+     * @param string $str An arbitrary string.
+     * 
      * @return bool
      */
-    private function isURL($str) {
-        return preg_match('#^https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?#', $str) > 0;
+    private function _isURL($str)
+    {
+        $regexp = '#^https?://([-\w\.]+)+(:\d+)?(/([\w/_\.]*(\?\S+)?)?)?#';
+        return preg_match($regexp, $str) > 0;
     }
     
     /***************************
@@ -530,12 +602,14 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
 
     /**
      * Returns the current node.
+     * 
      * @return boolean|XMLQuery
      */
-    public function current() {
-        $ret = FALSE;
-        $current = current($this->items);
-        if ($current !== FALSE) {
+    public function current()
+    {
+        $ret = false;
+        $current = current($this->_items);
+        if ($current !== false) {
             $ret = new XMLQuery($this, $current);
         }
         return $ret;
@@ -543,12 +617,14 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
 
     /**
      * Moves forward to next node.
+     * 
      * @return XMLQuery
      */
-    public function next() {
-        $ret = FALSE;
-        $current = next($this->items);
-        if ($current !== FALSE) {
+    public function next()
+    {
+        $ret = false;
+        $current = next($this->_items);
+        if ($current !== false) {
             $ret = new XMLQuery($this, $current);
         }
         return $ret;
@@ -556,25 +632,32 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
 
     /**
      * Returns the internal pointer.
+     * 
      * @return integer
      */
-    public function key() {
-        return key($this->items);
+    public function key()
+    {
+        return key($this->_items);
     }
 
     /**
      * Rewinds the internal pointer.
+     * 
+     * @return void
      */
-    public function rewind() {
-        reset($this->items);
+    public function rewind()
+    {
+        reset($this->_items);
     }
 
     /**
      * Checks if current position is valid.
-     * @return bool
+     * 
+     * @return boolean
      */
-    public function valid() {
-        return (key($this->items) !== NULL);
+    public function valid()
+    {
+        return (key($this->_items) !== null);
     }
     
     /******************************
@@ -582,38 +665,52 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
      ******************************/
 
     /**
-     * Whether or not an offset exists.
-     * @param integer $offset
+     * Does the DOMNode exist at a given position?
+     * 
+     * @param integer $offset Node position.
+     * 
      * @return boolean
      */
-    public function offsetExists($offset) {
-        return array_key_exists($offset, $this->items);
+    public function offsetExists($offset)
+    {
+        return array_key_exists($offset, $this->_items);
     }
 
     /**
-     * Gets the value at specified offset.
-     * @param integer $offset
+     * Gets the DOMNode object at a given position.
+     * 
+     * @param integer $offset Node position.
+     * 
      * @return DOMNode
      */
-    public function offsetGet($offset) {
-        return $this->items[$offset];
+    public function offsetGet($offset)
+    {
+        return $this->_items[$offset];
     }
 
     /**
-     * Assigns a value to the specified offset.
-     * @param integer $offset
-     * @param DOMNode $value
+     * Sets a DOMNode object at a given position.
+     * 
+     * @param integer $offset Node position.
+     * @param DOMNode $value  The value to be saved
+     * 
+     * @return void
      */
-    public function offsetSet($offset, $value) {
-        $this->items[$offset] = $value;
+    public function offsetSet($offset, $value)
+    {
+        $this->_items[$offset] = $value;
     }
 
     /**
-     * Unsets an offset.
-     * @param integer $offset
+     * Unsets a DOMNode object at a given position.
+     * 
+     * @param integer $offset Node position.
+     * 
+     * @return void
      */
-    public function offsetUnset($offset) {
-        unset($this->items[$offset]);
+    public function offsetUnset($offset)
+    {
+        unset($this->_items[$offset]);
     }
     
     /****************************
@@ -621,10 +718,12 @@ class XMLQuery implements Countable, Iterator, ArrayAccess {
      ****************************/
      
      /**
-      * Gets the number of records.
+      * Gets the number of nodes.
+      * 
       * @return integer
       */
-     public function count() {
-         return count($this->items);
-     }
+    public function count()
+    {
+        return count($this->_items);
+    }
 }
