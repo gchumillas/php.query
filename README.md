@@ -73,3 +73,7 @@ $item = $xml->select('books item[id=2]');
 // prints the string representation of a node
 echo $item->html();
 ```
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/cequiel/xmlquery/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
