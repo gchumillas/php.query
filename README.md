@@ -1,75 +1,57 @@
-xmlquery
+phpQuery
 ========
 
-The XMLQuery class parses and manipulates XML or HTML documents in similar way as jQuery does. It uses CSS selectors instead of XPath.
+The phpQuery class is inspired by the great [jQuery](http://jquery.com/) library. The purpose of this class is to simplify the access and manipulation of XML documents.
 
+Instead of the XPath query language, this class uses CSS selectors. This is an advantage for those who are not familiar with the XPath language. In any case, it is possible to still use the XPath language: simply use the 'xpath' method instead of 'query' method.
 
-I. Creating instances:
+Installation
+------------
+
+Copy and paste the `classes` folder into your application and include the file 'classes/php-query.php'. That is:
+
 ```php
-// creates an instance from a string
-$xml = new XMLQuery('<root>hello there</root>');
-
-// creates an instance from an url
-$xml = new XMLQuery('http://www.php.net');
-
-// creates an instance from a filename
-$xml = new XMLQuery('/home/username/my-file.xml');
+use com\soloproyectos\core\xml\phpQuery;
+require_once "classes/php-query.php";
 ```
 
-II. Traversing nodes:
+And that's all. You are ready to use the CssSelector class.
+
+Basic Examples
+--------------
+
+### Creating instances:
 ```php
-$xml = new XMLQuery('<root><books><item id="1" title="One" /><item id="2" title="Two" /></books></root>');
+// loads an XML document from a string
+$query = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
 
-// use the 'select' function to get nodes from a CSS expression
-// use the 'attr' function to get attributes from a node
-$items = $xml->select('books item');
-foreach ($items as $item) {
-    echo "Id: " . $item->attr("id") . ", Title: " . $item->attr("title") . "\n";
-}
+// loads an HTML document from a url
+$query = new phpQuery('http://www.php.net');
 
-// the previous example can also be written in the following and modern way
-// the functions 'select' and 'attr' are called internally
-$items = $xml('books item');
-foreach ($items as $item) {
-    echo "Id: {$item->id}, Title: {$item->title}\n";
+// loads an XML document from a file
+$query = new phpQuery('/home/username/my-file.xml');
+
+// loads an XML document from a specific DOMNode object
+$doc = new DOMDocument("1.0", "UTF-8");
+$doc->loadXML('<root><item id="101" /><item id="102" /><item id="103" /></root>');
+$query = new phpQuery(doc);
+```
+
+### Traversing nodes:
+```php
+$xml = new phpQuery("test.xml");
+
+// prints books info
+$books = $xml->query("books item");
+foreach ($books as $book) {
+    echo "Title: " . $book->attr("title") . "\n";
+    echo "Author: " . $book->attr("author_id") . "\n";
+    echo "ISBN: " . $book->query("isbn")->text() . "\n";
+    echo "Available: " . $book->query("available")->text() . "\n";
+    echo "Description: " . trim($book->query("description")->text()) . "\n";
+    echo "---\n";
 }
 
 // gets the number of items
 echo "Number of items: " . count($items);
-```
-
-III. Manipulation:
-```php
-$xml = new XMLQuery('<root><books><item id="1" title="One" /><item id="2" title="Two" /></books></root>');
-$books = $xml->select('books');
-
-// changes an attribute and adds a new one
-$item = $books->select('item[id=2]');
-$item->attr('title', 'Twenty Thousand Leagues Under the Sea');
-$item->attr('author', 'Jules Verne');
-
-// changes the contents of an item
-$item->text('Look at my horse, my horse is amazing');
-
-// inserts a new item to the end of the books node
-$books->append('<item id="3" title="Three" />');
-
-// inserts a new item to the beginning of the books node
-$books->prepend('<item id="0" title="Zero" />');
-
-// removes an item
-$item = $books->select('item[id=2]');
-$item->remove();
-
-// removes all content under the books node
-$books->clear();
-```
-
-IV. Printing nodes
-```php
-$xml = new XMLQuery('<root><books><item id="1" title="One" /><item id="2" title="Two" /></books></root>');
-$item = $xml->select('books item[id=2]');
-
-// prints the string representation of a node
-echo $item->html();
 ```
