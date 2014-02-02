@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<library>
+    <!-- BOOKS -->
+    <books>
+        <item class="sci-fi" id="1" author_id="arthur-cclarke" lang="en" title="2001: A Space Odyssey">
+            <isbn>9784444407304</isbn>
+            <available>yes</available>
+            <description>
+                2001: A Space Odyssey is a science fiction novel by Arthur C. Clarke. It was developed concurrently with Stanley Kubrick's film version and published after the release of the film.
+            </description>
+        </item>
+        <item class="sci-fi" id="2" author_id="arthur-cclarke" lang="en" title="Rendezvous with Rama">
+            <isbn>9780345350565</isbn>
+            <available>no</available>
+            <description>
+                Rendezvous with Rama is a novel by Arthur C. Clarke first published in 1972. Set in the 22nd century, the story involves a 50-kilometre cylindrical alien starship that enters Earth's solar system.
+            </description>
+        </item>
+        <item class="sci-fi" id="3" author_id="arthur-cclarke" lang="en" title="The Songs of Distant Earth">
+            <isbn>9785551543657</isbn>
+            <available>yes</available>
+            <description>
+                The Songs of Distant Earth is a science fiction novel by Arthur C. Clarke, first published in 1986. Clarke has claimed that it is his own favourite novel. He also wrote a short story and a short movie synopsis with the same title.
+            </description>
+        </item>
+        <item class="sci-fi" id="4" author_id="isaac-asimov" lang="en" title="I, Robot">
+            <isbn>9780246121004</isbn>
+            <available>yes</available>
+            <description>
+                I, Robot is a 2004 dystopian science-fiction action film directed by Alex Proyas. The screenplay was written by Jeff Vintar and Akiva Goldsman, and is inspired by Isaac Asimov's short-story collection of the same name.
+            </description>
+        </item>
+        <item class="sci-fi" id="5" author_id="isaac-asimov" lang="en" title="Robot Dreams">
+            <isbn>9780575040212</isbn>
+            <available>yes</available>
+            <description>
+                Robot Dreams is a collection of science fiction short stories by Isaac Asimov, illustrated by Ralph McQuarrie. The title story is about Susan Calvin's discovery of a robot with rather disturbing dreams.
+            </description>
+        </item>
+        <item class="sci-fi" id="6" author_id="isaac-asimov" lang="en" title="The End of Eternity">
+            <isbn>9780553288094</isbn>
+            <available>yes</available>
+            <description>
+                The End of Eternity by Isaac Asimov is a science fiction novel, with mystery and thriller elements, on the subjects of time travel and social engineering.
+            </description>
+        </item>
+        <item class="sci-fi" id="7" author_id="isaac-asimov" lang="en" title="David Starr, Space Ranger">
+            <isbn>9780345355355</isbn>
+            <available>yes</available>
+            <description>
+                David Starr, Space Ranger is the first novel in the Lucky Starr series, six juvenile science fiction novels by Isaac Asimov that originally appeared under the pseudonym Paul French.
+            </description>
+        </item>
+        <item class="sci-fi horror" id="8" author_id="theodore-sturgeon" lang="en" title="More Than Human">
+            <isbn>9780345294067</isbn>
+            <available>yes</available>
+            <description>
+                More Than Human is a 1953 science fiction novel by Theodore Sturgeon. It is a fix-up of his previously published novella Baby is Three with two parts written especially for the novel.
+            </description>
+        </item>
+        <item class="comedy" id="9" author_id="eduardo-mendoza" lang="es-ES" title="Sin noticias de Gurb">
+            <isbn>9788432296994</isbn>
+            <available>yes</available>
+            <description>
+                En este libro se relata la búsqueda de un extraterrestre, Gurb, perdido tras adoptar la apariencia de Marta Sanchez, en la ciudad de Barcelona. El narrador no es Gurb, sino otro alienígena (su comandante) que sale en pos de él tras convertirse en el conde-duque de Olivares, aunque va cambiando su apariencia a medida que avanza la trama, y cuyo diario constituye la guía de la narración.
+            </description>
+        </item>
+    </books>
+    
+    <!-- AUTHORS -->
+    <authors>
+        <item id="arthur-cclarke">
+            <name>Arthur C. Clarke</name>
+            <born>1917-12-16</born>
+            <died>2008-03-19</died>
+            <bio>
+                Arthur C. Clarke was a British science fiction writer, science writer, undersea explorer, television series host, and inventor. Born at Minehead in Somerset, England, he grew up in nearby Bishops Lydeard.
+            </bio>
+        </item>
+        <item id="isaac-asimov">
+            <name>Isaac Asimov</name>
+            <born>1920-06-02</born>
+            <died>1992-04-06</died>
+            <bio>
+                Arthur C. Clarke was a British science fiction writer, science writer, undersea explorer, television series host, and inventor. Born at Minehead in Somerset, England, he grew up in nearby Bishops Lydeard.
+            </bio>
+        </item>
+        <item id="theodore-sturgeon">
+            <name>Theodore Sturgeon</name>
+            <born>1918-02-26</born>
+            <died>1985-05-08</died>
+            <bio>
+                Theodore Sturgeon was an American science fiction and horror writer and critic. The Internet Speculative Fiction Database credits him with about 400 reviews and more than 200 stories.
+            </bio>
+        </item>
+        <item id="eduardo-mendoza">
+            <name>Eduardo Mendoza</name>
+            <born>1943-06-11</born>
+            <died></died>
+            <bio>
+                Eduardo Mendoza Garriga is a Spanish novelist. Born in Barcelona, Catalonia, Spain, he studied law in the first half of the 1960s and lived in New York between 1973 and 1982, working as interpreter for the United Nations.
+            </bio>
+        </item>
+    </authors>
+    
+    <!-- GENRES -->
+    <genres>
+        <item id="sci-fi">Sci-Fi</item>
+        <item id="comedy">Comedy</item>
+        <item id="horror">Horror</item>
+    </genres>
+</library>
