@@ -3,7 +3,7 @@ phpQuery
 
 The phpQuery class is inspired by the great [jQuery](http://jquery.com/) library. The purpose of this class is to simplify the access and manipulation of XML documents.
 
-Instead of the XPath query language, this class uses CSS selectors. This is an advantage for those who are not familiar with the XPath language. In any case, it is possible to still use the XPath language: simply use the 'xpath' method instead of 'query' method.
+Instead of the XPath query language, this class uses CSS selectors. This is an advantage for those who are not familiar with the XPath language. In any case, it is possible to still use the XPath language: just use the 'xpath' method instead of 'query' method.
 
 Installation
 ------------
