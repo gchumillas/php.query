@@ -1,8 +1,0 @@
-<root>
-	<books>
-		<item id="book-1" title="Book 1" author="Author 1" />
-		<item id="book-2" title="Book 2" author="Author 2" />
-		<item id="book-3" title="Book 3" author="Author 3" />
-		<item id="book-4" title="Book 4" author="Author 4" />
-	</books>
-</root>
