@@ -81,7 +81,7 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
         $mimetype = null,
         $charset = null,
         $attrs = array(),
-    $callback = null) {
+        $callback = null) {
         $this->items = array();
         
         // loads arguments. Some of these arguments are optional
