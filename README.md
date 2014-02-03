@@ -15,7 +15,7 @@ use com\soloproyectos\core\xml\phpQuery;
 require_once "classes/php-query.php";
 ```
 
-And that's all. You are ready to use the CssSelector class.
+And that's all. You are ready to use the phpQuery class.
 
 Basic Examples
 --------------
