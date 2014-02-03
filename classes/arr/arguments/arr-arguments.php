@@ -39,7 +39,9 @@ class ArrArguments
     private $_descriptors;
     
     /**
-     * @param array $arguments
+     * Constructor.
+     * 
+     * @param array $arguments Arguments
      * 
      * @return void
      */

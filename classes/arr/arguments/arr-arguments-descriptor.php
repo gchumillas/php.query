@@ -21,7 +21,8 @@ namespace com\soloproyectos\core\arr\arguments;
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-class ArrArgumentsDescriptor {
+class ArrArgumentsDescriptor
+{
     /**
      * List of variable types.
      * @var array
@@ -43,8 +44,8 @@ class ArrArgumentsDescriptor {
     /**
      * Constructor.
      * 
-     * @param array   $types Variable types
-     * @param mixed   $default Default value
+     * @param array   $types    Variable types
+     * @param mixed   $default  Default value
      * @param boolean $required Is a required argument?
      * 
      * @return void
@@ -78,6 +79,8 @@ class ArrArgumentsDescriptor {
     
     /**
      * Does the variable match with this descriptor?
+     * 
+     * @param mixed $var Arbitrary variable
      * 
      * @return boolean
      */

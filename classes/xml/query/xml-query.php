@@ -66,12 +66,12 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
      * $q = new XmlQuery("/home/john/myfile.xml");
      * </code>
      * 
-     * @param mixed  $source     Source (default is array())
-     * @param string $mimetype   Mime-type (not required, ignored if the source is
+     * @param mixed    $source   Source (default is array())
+     * @param string   $mimetype Mime-type (not required, ignored if the source is
      *                           not a filename or URL)
-     * @param string $charset    Charset (not required, ignored if the source is not
-     *                           a file or URL)
-     * @param array  $attrs      Attributes (not required)
+     * @param string   $charset  Charset (not required, ignored if the source is
+     *                           not a file or URL)
+     * @param array    $attrs    Attributes (not required)
      * @param Callable $callback Callback function (not required)
      * 
      * @return void
@@ -81,33 +81,37 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
         $mimetype = null,
         $charset = null,
         $attrs = array(),
-        $callback = null) {
+        $callback = null
+    ) {
         $this->items = array();
         
         // loads arguments. Some of these arguments are optional
-        $args = Arr::fetch(func_get_args(), array(
-            "source" => array(
-                "type" => "string|array|Traversable|DOMNode|DOMNodeList" .
-                    "|com\soloproyectos\core\xml\query\XmlQuery",
-                "default" => array()
-            ),
-            "mimetype" => array(
-                "type" => "string",
-                "default" => null
-            ),
-            "charset" => array(
-                "type" => "string",
-                "default" => null
-            ),
-            "attrs" => array(
-                "type" => "array",
-                "default" => array()
-            ),
-            "callback" => array(
-                "type" => "function",
-                "required" => false,
+        $args = Arr::fetch(
+            func_get_args(),
+            array(
+                "source" => array(
+                    "type" => "string|array|Traversable|DOMNode|DOMNodeList" .
+                        "|com\soloproyectos\core\xml\query\XmlQuery",
+                    "default" => array()
+                ),
+                "mimetype" => array(
+                    "type" => "string",
+                    "default" => null
+                ),
+                "charset" => array(
+                    "type" => "string",
+                    "default" => null
+                ),
+                "attrs" => array(
+                    "type" => "array",
+                    "default" => array()
+                ),
+                "callback" => array(
+                    "type" => "function",
+                    "required" => false,
+                )
             )
-        ));
+        );
         
         if (is_string($source)) {
             call_user_func(
@@ -598,17 +602,20 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
     {
         $ret = null;
         $current = current($this->_items);
-        $args = Arr::fetch(func_get_args(), array(
-            "source" => "string|com\soloproyectos\core\xml\query\XmlQuery",
-            "attrs" => array(
-                "type" => "array",
-                "default" => array()
-            ),
-            "callback" => array(
-                "type" => "function",
-                "required" => false
+        $args = Arr::fetch(
+            func_get_args(),
+            array(
+                "source" => "string|com\soloproyectos\core\xml\query\XmlQuery",
+                "attrs" => array(
+                    "type" => "array",
+                    "default" => array()
+                ),
+                "callback" => array(
+                    "type" => "function",
+                    "required" => false
+                )
             )
-        ));
+        );
         
         if ($current !== false) {
             $str = $args["source"] instanceof XmlQuery
@@ -689,17 +696,20 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
     {
         $ret = null;
         $current = current($this->_items);
-        $args = Arr::fetch(func_get_args(), array(
-            "source" => "string|com\soloproyectos\core\xml\query\XmlQuery",
-            "attrs" => array(
-                "type" => "array",
-                "default" => array()
-            ),
-            "callback" => array(
-                "type" => "function",
-                "required" => false
+        $args = Arr::fetch(
+            func_get_args(),
+            array(
+                "source" => "string|com\soloproyectos\core\xml\query\XmlQuery",
+                "attrs" => array(
+                    "type" => "array",
+                    "default" => array()
+                ),
+                "callback" => array(
+                    "type" => "function",
+                    "required" => false
+                )
             )
-        ));
+        );
         
         if ($current !== false) {
             $str = $args["source"] instanceof XmlQuery
