@@ -46,7 +46,7 @@ print_r($item->data("myVar"));
 // Example 4
 echo "\n*** Example2: changing attributes and inner texts ***\n\n";
 $item = $xml->query("authors item[id = isaac-asimov]");
-// changes the description
+// changes the biography
 $item->query("bio")->text("Isaac Asimov is AWESOME.");
 // changes or adds new attributes
 $item->attr("id", "isaac-awesome");
