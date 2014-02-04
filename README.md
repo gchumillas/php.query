@@ -22,7 +22,17 @@ And that's all. You are ready to use the phpQuery class.
 Basic Examples
 --------------
 
-### Creating instances:
+The most important methods are:
+
+1. `query(<css selectors>)` or `xpath(<xpath expression>)` for getting nodes from a document
+2. `attr(<attribute name>)` for getting attributes
+3. `text()` for getting node texts
+4. `html()` for getting the string representation of the node
+5. `prepend(<new node>)` and `append(<new node>)` for inserting nodes at the beggining and the end of a given node
+6. `remove()` for removing a specific node
+7. `clear()` for removing all child nodes of a given node
+
+#### Creating instances:
 ```php
 // loads an XML document from a string
 $query = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
@@ -39,7 +49,7 @@ $doc->loadXML('<root><item id="101" /><item id="102" /><item id="103" /></root>'
 $query = new phpQuery(doc);
 ```
 
-### Traversing nodes:
+#### Traversing nodes:
 ```php
 $xml = new phpQuery("test.xml");
 
