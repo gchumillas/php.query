@@ -28,7 +28,7 @@ The most important methods are:
 2. `attr(<attribute name>, <optional value>)` for getting or setings attribute values
 3. `text(<optional text>)` for getting or settings node texts
 4. `html()` for getting the string representation of a node
-5. `prepend(<new node>)` and `append(<new node>)` for inserting nodes at the beggining and the end of a given node
+5. `prepend(<new node>)` and `append(<new node>)` for inserting nodes at the beggining or the end of a given node
 6. `remove()` for removing a specific node
 7. `clear()` for removing all child nodes of a given node
 
@@ -55,7 +55,7 @@ $xml = new phpQuery(doc);
 
 #### Using the `query` method
 
-Note that you can use the same `query` function to select a single node or multiple nodes. If you feel more comfortable with the XPath language, you can use the `xpath` method instead of `query`. That's your choise :)
+Note that you can use the same `query` function to select a single node or multiple nodes. If you feel more comfortable with the XPath language, you can use the `xpath` method instead. That's your choise :)
 
 ```PHP
 $xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
@@ -66,7 +66,7 @@ foreach ($items as $item) {
     echo $item->html() . "\n";
 }
 
-// select and print a single item
+// select and prints a single item
 $item = $xml->query("item[id = 102]");
 echo $item->html();
 ```
@@ -99,7 +99,7 @@ $xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></
 
 $item = $xml->query("item[id = 102]");
 
-// changes the id and add a new 'title' attribute
+// changes the id and adds a new 'title' attribute
 $item->attr("id", 666);
 $item->attr("title", "Item 666");
 
