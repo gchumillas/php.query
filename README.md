@@ -90,7 +90,7 @@ foreach ($books as $book) {
 echo "Number of items: " . count($items);
 ```
 
-#### Using `attr` and `text` to change attributes and inner texts:
+#### Using the `attr` and `text` methods to change attributes and inner texts:
 
 In the previous example we used `attr` and `text` for getting attributes and texts. In this example we are use the same methods to change the document.
 
@@ -132,7 +132,7 @@ $item->prepend('subitem', array("id" => "102.2", "title" => "Subitem title"), fu
 echo $xml->html();
 ```
 
-#### Using the `remove` and `clear` functions:
+#### Using the `remove` and `clear` methods:
 
 $xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
 
