@@ -28,7 +28,7 @@ The most important methods are:
 2. `attr(<attribute name>, <optional value>)` for getting or setings attribute values
 3. `text(<optional text>)` for getting or settings node texts
 4. `html()` for getting the string representation of a node
-5. `prepend(<new node>)` and `append(<new node>)` for inserting nodes at the beggining or the end of a given node
+5. `prepend(<new node>)` and `append(<new node>)` for inserting nodes
 6. `remove()` for removing a specific node
 7. `clear()` for removing all child nodes of a given node
 
