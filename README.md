@@ -151,3 +151,31 @@ echo $xml->html();
 $xml->clear();
 echo $xml->html();
 ```
+
+#### Building XML documents from scratch
+
+You can use this class to create XML documents from scratch. This is a very nice feature if you want to create arbitrary XML documents and want to ensure that the created document is well formed:
+
+```PHP
+$xml = new phpQuery('root', function ($root) {
+    // adding some items to the root node
+    for ($i = 0; $i < 3; $i++) {
+        $root->append("item", array("id" => $i, "title" => "Item $i"), function ($item) use ($i) {
+            $item->text("This is the item $i");
+        });
+    }
+    
+    // prepends a node
+    $root->prepend("title", function ($item) {
+        $item->text("This is the title");
+    });
+    
+    // appends a complex node
+    $root->append("node", array("title" => "Complex node"), function ($node) {
+        $node->append("item", array("id" => 1, "title" => "Subitem 1"), function ($item) {
+            $item->text("I'm on the subway");
+        });
+    });
+});
+echo $xml->html();
+```
