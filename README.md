@@ -35,18 +35,18 @@ The most important methods are:
 #### Creating instances:
 ```php
 // loads an XML document from a string
-$query = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
+$xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
 
 // loads an HTML document from a url
-$query = new phpQuery('http://www.php.net');
+$xml = new phpQuery('http://www.php.net');
 
 // loads an XML document from a file
-$query = new phpQuery('/home/username/my-file.xml');
+$xml = new phpQuery('/home/username/my-file.xml');
 
 // loads an XML document from a specific DOMNode object
 $doc = new DOMDocument("1.0", "UTF-8");
 $doc->loadXML('<root><item id="101" /><item id="102" /><item id="103" /></root>');
-$query = new phpQuery(doc);
+$xml = new phpQuery(doc);
 ```
 
 #### Traversing nodes:
