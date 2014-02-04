@@ -154,7 +154,7 @@ echo $xml->html();
 
 #### Building XML documents from scratch
 
-You can use phpQuery to create XML documents from scratch. This is a very nice feature if you want to create arbitrary XML documents and want to ensure that the created document is well formed:
+You can use phpQuery to create XML documents from scratch. This is a very nice feature if you want to create arbitrary XML documents and want to ensure that the created documents are well formed:
 
 ```PHP
 $xml = new phpQuery('root', function ($root) {
