@@ -5,7 +5,7 @@ The phpQuery class is inspired by the glorified [jQuery](http://jquery.com/) lib
 
 Instead of the XPath query language, this class uses CSS selectors. This is an advantage for those who are not familiar with XPath . In any case, it is still possible to use XPath: just use the 'xpath' method instead of 'query'.
 
-Another added advantage is that we no longer need to handle different classes as DOMNode, DOMElement, DOMNodeList, etc ... In our case, all nodes are represented by the same class: phpQuery, which simplifies things.
+Another added advantage is that we no longer need to handle different classes as DOMNode, DOMElement, DOMNodeList, etc ... In our case, all nodes are represented by the same class: phpQuery, which simplifies the code.
 
 Installation
 ------------
