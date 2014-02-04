@@ -90,6 +90,25 @@ foreach ($books as $book) {
 echo "Number of items: " . count($items);
 ```
 
+#### Using `attr` and `text` to change attributes and inner texts:
+
+In the previous example we used `attr` and `text` for getting attributes and texts. In this example we are use the same methods to change the document.
+
+```PHP
+$xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
+
+$item = $xml->query("item[id = 102]");
+
+// changes the id and add a new 'title' attribute
+$item->attr("id", 666);
+$item->attr("title", "Item 666");
+
+// changes the inner text
+$item->text("I'm an inner text");
+
+echo $item->html("");
+```
+
 #### Using `prepend` and `append` methods:
 
 You can use the `prepend` and `append` functions in two ways:
@@ -110,5 +129,25 @@ echo $xml->html();
 $item->prepend('subitem', array("id" => "102.2", "title" => "Subitem title"), function ($subitem) {
     $subitem->text("I'm the first child node ...");
 });
+echo $xml->html();
+```
+
+#### Using the `remove` and `clear` functions:
+
+$xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
+
+```PHP
+// removes a single item
+$item = $xml->query("item[id = 103]");
+$item->remove();
+echo $xml->html();
+
+// removes a list of items
+$items = $xml->query("item:even");
+$items->remove();
+echo $xml->html();
+
+// removes all chid nodes
+$xml->clear();
 echo $xml->html();
 ```
