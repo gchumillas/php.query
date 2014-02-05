@@ -13,8 +13,8 @@
 namespace com\soloproyectos\core\css\parser\model;
 use DOMElement;
 use DOMNode;
-use com\soloproyectos\core\css\parser\CssParserHelper;
 use com\soloproyectos\core\css\parser\model\CssParserModelFactor;
+use com\soloproyectos\core\xml\dom\XmlDomHelper;
 
 /**
  * Class CssParserModelSelector.
@@ -83,7 +83,7 @@ class CssParserModelSelector
         $ret = array();
         foreach ($nodes as $node) {
             $items = $factor->filter($node);
-            $ret = CssParserHelper::mergeNodes($ret, $items);
+            $ret = XmlDomHelper::mergeNodes($ret, $items);
         }
         return $ret;
     }

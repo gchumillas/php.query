@@ -30,6 +30,7 @@ use com\soloproyectos\core\css\parser\model\CssParserModelFactor;
 use com\soloproyectos\core\css\parser\model\CssParserModelSelector;
 use com\soloproyectos\core\text\parser\exception\TextParserException;
 use com\soloproyectos\core\text\parser\TextParser;
+use com\soloproyectos\core\xml\dom\XmlDomHelper;
  
 /**
  * Class CssParser.
@@ -194,7 +195,7 @@ class CssParser extends TextParser
      * // selects the first and the odd elements and prints them
      * $items = $selector->query('item:odd, item:first-child');
      * foreach ($items as $item) {
-     *      echo CssParserHelper::dom2str($item) . "\n";
+     *      echo XmlDomHelper::dom2str($item) . "\n";
      * }
      * </pre>
      * 
@@ -227,16 +228,16 @@ class CssParser extends TextParser
      * $css->registerPseudoFilter(
      *     "fibonacci", function ($node, $input, $position, $items
      * ) {
-     *     $is_fibonacci = false;
+     *     $isFibonacci = false;
      *     if ($position > 0) {
      *         $n = sqrt(5 * pow($position, 2) + 4);
-     *         $is_fibonacci = $n - floor($n) == 0;
-     *         if (!$is_fibonacci) {
+     *         $isFibonacci = $n - floor($n) == 0;
+     *         if (!$isFibonacci) {
      *             $n = sqrt(5 * pow($position, 2) - 4);
-     *             $is_fibonacci = $n - floor($n) == 0;
+     *             $isFibonacci = $n - floor($n) == 0;
      *         }
      *     }
-     *     return $is_fibonacci;
+     *     return $isFibonacci;
      * });
      * $items = $selector->query('item:fibonacci');
      * </pre>
@@ -289,9 +290,9 @@ class CssParser extends TextParser
      * // DOMElement objects.
      * $selector->registerCombinator("&", function ($node, $tagname) {
      *     $ret = array();
-     *     $items = CssParserHelper::getElementsByTagName($node, $tagname);
+     *     $items = XmlDomHelper::getElementsByTagName($node, $tagname);
      *     foreach ($items as $item) {
-     *         $childs = CssParserHelper::getChildElements($item);
+     *         $childs = XmlDomHelper::getChildElements($item);
      *         if (count($childs) == 0) {
      *             array_push($ret, $item);
      *         }
@@ -332,7 +333,7 @@ class CssParser extends TextParser
      */
     public function dom2str($node)
     {
-        return CssParserHelper::dom2str($node);
+        return XmlDomHelper::dom2str($node);
     }
     
     /**
@@ -668,7 +669,7 @@ class CssParser extends TextParser
                 // throw new TextParserException("Invalid expression", $this);
                 break;
             }
-            $nodes = CssParserHelper::mergeNodes(
+            $nodes = XmlDomHelper::mergeNodes(
                 $nodes,
                 $selector->filter($this->_node)
             );
@@ -685,7 +686,7 @@ class CssParser extends TextParser
      * 
      * @return ArrayObject
      */
-    protected function _parse()
+    protected function evaluate()
     {
         return $this->is("selectorList");
     }

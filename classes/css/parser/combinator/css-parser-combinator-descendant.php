@@ -12,8 +12,8 @@
  */
 namespace com\soloproyectos\core\css\parser\combinator;
 use DOMElement;
-use com\soloproyectos\core\css\parser\CssParserHelper;
 use com\soloproyectos\core\css\parser\combinator\CssParserCombinator;
+use com\soloproyectos\core\xml\dom\XmlDomHelper;
 
 /**
  * Class CssParserCombinatorDescendant.
@@ -39,6 +39,6 @@ class CssParserCombinatorDescendant extends CssParserCombinator
      */
     public function filter($node, $tagname)
     {
-        return CssParserHelper::getElementsByTagName($node, $tagname);
+        return XmlDomHelper::getElementsByTagName($node, $tagname);
     }
 }

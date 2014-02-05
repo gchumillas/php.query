@@ -12,8 +12,8 @@
  */
 namespace com\soloproyectos\core\css\parser\filter;
 use DOMElement;
-use com\soloproyectos\core\css\parser\CssParserHelper;
 use com\soloproyectos\core\css\parser\filter\CssParserFilterPseudo;
+use com\soloproyectos\core\xml\dom\XmlDomHelper;
 
 /**
  * Class CssParserFilterPseudoFirstChild.
@@ -40,6 +40,6 @@ class CssParserFilterPseudoFirstChild extends CssParserFilterPseudo
      */
     public function match($node, $position, $items)
     {
-        return !CssParserHelper::getPreviousSiblingElement($node);
+        return !XmlDomHelper::getPreviousSiblingElement($node);
     }
 }

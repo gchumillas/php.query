@@ -83,7 +83,7 @@ class SysCmdArgumentsParser extends TextParser
      * 
      * @return false|array of SysCmdArgument objects
      */
-    protected function _parse()
+    protected function evaluate()
     {
         $args = array();
         

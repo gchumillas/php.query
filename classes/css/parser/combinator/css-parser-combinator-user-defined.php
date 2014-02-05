@@ -14,7 +14,6 @@ namespace com\soloproyectos\core\css\parser\combinator;
 use Closure;
 use DOMElement;
 use com\soloproyectos\core\css\parser\exception\CssParserException;
-use com\soloproyectos\core\css\parser\CssParserHelper;
 use com\soloproyectos\core\css\parser\combinator\CssParserCombinator;
 
 /**

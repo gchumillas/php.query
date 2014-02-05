@@ -33,18 +33,18 @@ foreach ($books as $book) {
 }
 
 // Example 2
-echo "\n*** Example2: printing HTML contents ***\n\n";
+echo "\n*** Example 2: printing HTML contents ***\n\n";
 $authors = $xml->query("authors item[id = arthur-cclarke]");
-echo $authors->html() . "\n";
+echo $authors . "\n";
 
 // Example 3
-echo "\n*** Example3: storing and retrieving data ***\n\n";
+echo "\n*** Example 3: storing and retrieving data ***\n\n";
 $item = $xml->query("books item[id = 3]");
 $item->data("myVar", array("This is", "an", "arbitrary", "data", "structure"));
 print_r($item->data("myVar"));
 
 // Example 4
-echo "\n*** Example2: changing attributes and inner texts ***\n\n";
+echo "\n*** Example 4: changing attributes and inner texts ***\n\n";
 $item = $xml->query("authors item[id = isaac-asimov]");
 // changes the biography
 $item->query("bio")->text("Isaac Asimov is AWESOME.");
@@ -52,10 +52,10 @@ $item->query("bio")->text("Isaac Asimov is AWESOME.");
 $item->attr("id", "isaac-awesome");
 $item->attr("title", "The Awesome man");
 // prints the modified node
-echo $item->html();
+echo $item . "\n";
 
 // Example 5
-echo "\n*** Example2: adding new nodes ***\n\n";
+echo "\n*** Example 5: adding new nodes ***\n\n";
 $authors = $xml->query("authors");
 // adds a new science fiction author
 $authors->append("item", array("id" => "ray-bradbury", "title" => "Ray Bradbury"), function ($target) {
@@ -73,20 +73,20 @@ $authors->prepend(
         '<bio>Mary Shelley was an English novelist, short story writer, dramatist, essayist, biographer, and travel writer, best known for her Gothic novel Frankenstein: or, The Modern Prometheus.</bio>' .
     '</item>'
 );
-echo $authors->html();
+echo $authors . "\n";
 
 // Example 6
-echo "\n*** Example2: removing and clearing nodes ***\n\n";
+echo "\n*** Example 6: removing and clearing nodes ***\n\n";
 echo "Removing the 'The Songs of Distant Earth'...\n";
 $book = $xml->query("books item[id = 3]");
 $book->remove();
 echo "Removing all genres...\n";
 $genres = $xml->query("genres");
 $genres->clear();
-echo $genres->html() . "\n";
+echo $genres . "\n";
 
 // Example 7
-echo "\n*** Example2: counting the number of elements ***\n\n";
+echo "\n*** Example 7: counting the number of elements ***\n\n";
 // selects all even books
 $items = $xml->query("books item:even");
 echo "There are " . count($items) . " 'even' books.\n";

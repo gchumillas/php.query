@@ -34,9 +34,9 @@ class XmlQueryException extends XmlException
      */
     public function __construct($message = "", $query = null)
     {
-        if ($query != null) {
+        if ($query != null && count($query) > 0) {
             $xml = $query->xml();
-            $path = $query->getXPath();
+            $path = $query[0]->getNodePath();
             $message = $message . ":\n$xml\n\nPath:\n$path";
         }
         

@@ -67,14 +67,14 @@ abstract class TextParser extends TextTokenizer
     }
     
     /**
-     * "Pre" parses a string.
+     * Evaluates an expression.
      * 
      * This function is called by the 'TextParser::parse()' function.
      * 
      * @see TextParser::parse()
      * @return mixed
      */
-    abstract protected function _parse();
+    abstract protected function evaluate();
     
     /**
      * Parses a string.
@@ -108,7 +108,7 @@ abstract class TextParser extends TextTokenizer
         $this->string = func_num_args() > 0 ? $string : $this->string;
         
         $ungreedy = TextParser::UNGREEDY & $this->_flags;
-        $ret = $this->_parse();
+        $ret = $this->evaluate();
         
         if ($ret) {
             if ($this->_target instanceof TextParser) {

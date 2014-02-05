@@ -12,8 +12,8 @@
  */
 namespace com\soloproyectos\core\css\parser\combinator;
 use DOMElement;
-use com\soloproyectos\core\css\parser\CssParserHelper;
 use com\soloproyectos\core\css\parser\combinator\CssParserCombinator;
+use com\soloproyectos\core\xml\dom\XmlDomHelper;
 
 /**
  * Class CssParserCombinatorAdjacent.
@@ -40,7 +40,7 @@ class CssParserCombinatorAdjacent extends CssParserCombinator
     public function filter($node, $tagname)
     {
         $ret = array();
-        if ($element = CssParserHelper::getNextSiblingElement($node)) {
+        if ($element = XmlDomHelper::getNextSiblingElement($node)) {
             array_push($ret, $element);
         }
         return $ret;

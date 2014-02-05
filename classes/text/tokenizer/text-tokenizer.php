@@ -327,9 +327,9 @@ class TextTokenizer
      *     }
      *     // `from` clause
      *     if ($t->match("from\s+(\w+)", $matches)) {
-     *         $table_name = $matches[1];
+     *         $tableName = $matches[1];
      *         echo "You want to get the columns " . implode(", ", $columns) .
-     *              " from the table $table_name.";
+     *              " from the table $tableName.";
      *     }
      * }
      * </code>

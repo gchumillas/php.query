@@ -12,7 +12,6 @@
  */
 namespace com\soloproyectos\core\css\parser\filter;
 use DOMElement;
-use com\soloproyectos\core\css\parser\CssParserHelper;
 use com\soloproyectos\core\css\parser\filter\CssParserFilterPseudo;
 
 /**

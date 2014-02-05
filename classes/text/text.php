@@ -83,7 +83,7 @@ class Text
             }
             
             if (strlen($ret) > 0) {
-                $ret = rtrim($ret, $glue) . $glue;
+                $ret .= $glue;
             }
             
             $ret .= $arg;

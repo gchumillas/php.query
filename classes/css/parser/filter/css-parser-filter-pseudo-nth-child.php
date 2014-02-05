@@ -12,8 +12,8 @@
  */
 namespace com\soloproyectos\core\css\parser\filter;
 use DOMElement;
-use com\soloproyectos\core\css\parser\CssParserHelper;
 use com\soloproyectos\core\css\parser\filter\CssParserFilterPseudo;
+use com\soloproyectos\core\xml\dom\XmlDomHelper;
 
 /**
  * Class CssParserFilterPseudoNthChild.
@@ -58,7 +58,7 @@ class CssParserFilterPseudoNthChild extends CssParserFilterPseudo
     {
         $i = 1;
         
-        while ($node = CssParserHelper::getPreviousSiblingElement($node)) {
+        while ($node = XmlDomHelper::getPreviousSiblingElement($node)) {
             $i++;
             if ($i > $this->_position) {
                 return false;

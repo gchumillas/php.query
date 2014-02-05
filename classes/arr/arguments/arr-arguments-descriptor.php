@@ -105,6 +105,8 @@ class ArrArgumentsDescriptor
                 $ret = is_resource($var);
             } elseif ($type == "function") {
                 $ret = is_callable($var);
+            } elseif ($type == "scalar") {
+                $ret = is_scalar($var);
             } else {
                 $ret = is_a($var, $type);
             }

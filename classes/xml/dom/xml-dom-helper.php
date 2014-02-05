@@ -1,32 +1,32 @@
 <?php
 /**
- * This file contains the CssParserHelper class.
+ * This file contains the XmlDomHelper class.
  * 
  * PHP Version 5.3
  * 
- * @category Css
- * @package  CssParser
+ * @category Xml
+ * @package  XmlDom
  * @author   Gonzalo Chumillas <gonzalo@soloproyectos.com>
  * @license  https://raw2.github.com/soloproyectos/php.common-libs/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/php.common-libs
  */
-namespace com\soloproyectos\core\css\parser;
+namespace com\soloproyectos\core\xml\dom;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
 
 /**
- * Class CssParserHelper.
+ * Class XmlDomHelper.
  * 
  * This is a helper class.
  * 
- * @category Css
- * @package  CssParser
+ * @category Xml
+ * @package  XmlDom
  * @author   Gonzalo Chumillas <gonzalo@soloproyectos.com>
  * @license  https://raw2.github.com/soloproyectos/php.common-libs/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/php.common-libs
  */
-class CssParserHelper
+class XmlDomHelper
 {
     
     /**
@@ -155,11 +155,60 @@ class CssParserHelper
         
         for ($i = 0; $i < $len; $i++) {
             $item = $items[$i];
-            $position = CssParserHelper::searchNode($item, $items, $i + 1);
+            $position = XmlDomHelper::searchNode($item, $items, $i + 1);
             if ($position === false) {
                 array_push($ret, $item);
             }
         }
+        
+        return $ret;
+    }
+    
+    /**
+     * Gets the owner document of a node.
+     * 
+     * <p>If the node is an instance of DOMDocument, this function returns the node
+     * itself.</p>
+     * 
+     * @param DOMNode $node Node
+     * 
+     * @return DOMDocument
+     */
+    public static function getOwnerDocument($node)
+    {
+        return $node instanceof DOMDocument? $node : $node->ownerDocument;
+    }
+    
+    /**
+     * Removes all child nodes.
+     * 
+     * @param DOMNode $node Node
+     * 
+     * @return void
+     */
+    public static function removeChildNodes($node)
+    {
+        while ($node->hasChildNodes()) {
+            $node->removeChild($node->firstChild);
+        }
+    }
+    
+    /**
+     * Gets inner HTML of a node
+     * 
+     * @param DOMNode $node node
+     * 
+     * @return string
+     */
+    public static function getInnerHtml($node)
+    {
+        $ret = "";
+        $items = $node->childNodes;
+        
+        foreach ($items as $item) {
+            $ret .= XmlDomHelper::dom2str($item);
+        }
+        
         return $ret;
     }
     
@@ -174,23 +223,5 @@ class CssParserHelper
     {
         $doc = $node instanceof DOMDocument? $node : $node->ownerDocument;
         return $doc->saveXML($node);
-    }
-    
-    /**
-     * Gets nodes from a CSS expression.
-     * 
-     * This function filters all nodes that satisfy a CSS expression.
-     * 
-     * @param DOMNode $node  DOMNode object
-     * @param string  $query CSS selector expression.
-     * 
-     * @return array of DOMElement objects
-     */
-    public static function select($node, $query)
-    {
-        $nodes = array();
-        $p = new CssParser($node, $query);
-        $nodes = $p->parse();
-        return $nodes;
     }
 }
