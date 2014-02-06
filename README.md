@@ -164,6 +164,16 @@ $xml->clear();
 echo $xml;
 ```
 
+#### Chaining
+
+You can concatenate multiple methods in the same command:
+
+```PHP
+$xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
+// changes and prints the node in the same line
+echo $xml->query("item[id = 102]")->attr("title", "Item 101")->text("Some text...")->append("subitem");
+```
+
 #### Building XML documents from scratch
 
 You can use phpQuery to create XML documents from scratch. This is a very nice feature if you want to create arbitrary XML documents and want to ensure that the created documents are well formed:
