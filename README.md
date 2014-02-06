@@ -199,3 +199,7 @@ $xml = new phpQuery('root', function ($target) {
 });
 echo $xml;
 ```
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/cequiel/xmlquery/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
