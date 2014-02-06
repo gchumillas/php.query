@@ -27,7 +27,7 @@ The most important methods are:
 1. `query(<css selectors>)` or `xpath(<xpath expression>)` for getting nodes from a document
 2. `attr(<attribute name>, <optional value>)` for getting or setings attribute values
 3. `text(<optional text>)` for getting or settings node texts
-4. `html()` for getting the string representation of a node
+4. `html()` for getting the inner contents of a node
 5. `prepend(<new node>)` and `append(<new node>)` for inserting nodes
 6. `remove()` for removing a specific node
 7. `clear()` for removing all child nodes of a given node
@@ -47,10 +47,14 @@ $xml = new phpQuery('http://www.php.net');
 // loads an XML document from a file
 $xml = new phpQuery('/home/username/my-file.xml');
 
-// loads an XML document from a specific DOMNode object
+// loads an XML document from a specific DOMDocument object
 $doc = new DOMDocument("1.0", "UTF-8");
 $doc->loadXML('<root><item id="101" /><item id="102" /><item id="103" /></root>');
 $xml = new phpQuery($doc);
+
+// loads an XML document from a specif DOMNode object
+// $domNode can be any DOMNode object and represents the `root` node
+$xml = new phpQuery($domNode);
 ```
 
 #### Using the `query` method
@@ -137,22 +141,22 @@ echo $xml;
 
 #### Using the `remove` and `clear` methods:
 
+```PHP
 $xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
 
-```PHP
 // removes a single item
 $item = $xml->query("item[id = 103]");
 $item->remove();
-echo $xml->html();
+echo $xml;
 
 // removes a list of items
 $items = $xml->query("item:even");
 $items->remove();
-echo $xml->html();
+echo $xml;
 
 // removes all chid nodes
 $xml->clear();
-echo $xml->html();
+echo $xml;
 ```
 
 #### Building XML documents from scratch
@@ -160,25 +164,23 @@ echo $xml->html();
 You can use phpQuery to create XML documents from scratch. This is a very nice feature if you want to create arbitrary XML documents and want to ensure that the created documents are well formed:
 
 ```PHP
-$xml = new phpQuery('root', function ($root) {
+$xml = new phpQuery('root', function ($target) {
     // adding some items to the root node
     for ($i = 0; $i < 3; $i++) {
-        $root->append("item", array("id" => $i, "title" => "Item $i"), function ($item) use ($i) {
-            $item->text("This is the item $i");
+        $target->append("item", array("id" => $i, "title" => "Item $i"), function ($target) use ($i) {
+            $target->text("This is the item $i");
         });
     }
     
     // prepends a node
-    $root->prepend("title", function ($item) {
-        $item->text("This is the title");
-    });
+    $target->prepend("title", "This is the main title ...");
     
     // appends a complex node
-    $root->append("node", array("title" => "Complex node"), function ($node) {
-        $node->append("item", array("id" => 1, "title" => "Subitem 1"), function ($item) {
-            $item->text("I'm on the subway");
+    $target->append("node", array("title" => "Complex node"), function ($node) {
+        $node->append("item", array("id" => 1, "title" => "Subitem 1"), function ($target) {
+            $target->text("I'm on the subway");
         });
     });
 });
-echo $xml->html();
+echo $xml;
 ```
