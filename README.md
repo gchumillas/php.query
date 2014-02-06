@@ -27,7 +27,7 @@ The most important methods are:
 1. `query(<css selectors>)` or `xpath(<xpath expression>)` for getting nodes from a document
 2. `attr(<attribute name>, <optional value>)` for getting or setings attribute values
 3. `text(<optional text>)` for getting or settings node texts
-4. `html()` for getting the inner contents of a node
+4. `html()` for getting or settings the inner contents
 5. `prepend(<new node>)` and `append(<new node>)` for inserting nodes
 6. `remove()` for removing a specific node
 7. `clear()` for removing all child nodes of a given node
@@ -75,7 +75,7 @@ $item = $xml->query("item[id = 102]");
 echo $item;
 ```
 
-#### Using the `attr` and `text` methods:
+#### Using the `attr`, `text` and `html` methods:
 ```PHP
 $xml = new phpQuery("test.xml");
 
@@ -92,24 +92,29 @@ foreach ($books as $book) {
 
 // gets the number of items
 echo "Number of items: " . count($books);
+
+// prints the node contents
+$genres = $xml->query("genres");
+echo $genres->html();
 ```
 
-#### Using the `attr` and `text` methods to change attributes and inner texts:
+#### Using the `attr`, `text` and `html` methods to change nodes:
 
 In the previous example we used `attr` and `text` for getting attributes and texts. In this example we are use the same methods to change the document.
 
 ```PHP
 $xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
 
+// changes or adds attributes and inner texts
 $item = $xml->query("item[id = 102]");
-
-// changes the id and adds a new 'title' attribute
 $item->attr("id", 666);
 $item->attr("title", "Item 666");
-
-// changes the inner text
 $item->text("I'm an inner text");
+echo $item;
 
+// changes inner contents
+$item = $xml->query("item[id = 103]");
+$item->html('<subitem>I am a subitem</subitem>');
 echo $item;
 ```
 
@@ -118,7 +123,7 @@ echo $item;
 You can use the `prepend` and `append` functions in two ways:
 
 1. `append(<string representation of the node>)`
-2. `append(<node name>, <list of attributes>, <inner texts>, <callback function>)`
+2. `append(<node name>, <optional list of attributes>, <optional inner texts>, <optional callback function>)`
 
 ```PHP
 $xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
