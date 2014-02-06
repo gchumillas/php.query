@@ -100,7 +100,7 @@ echo $genres->html();
 
 #### Using the `attr`, `text` and `html` methods to change nodes:
 
-In the previous example we used `attr` and `text` for getting attributes and texts. In this example we are use the same methods to change the document.
+In the previous example we used `attr`, `text` and `html` for getting contents. In this example we are use the same methods to change the document.
 
 ```PHP
 $xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
