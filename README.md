@@ -50,7 +50,7 @@ $xml = new phpQuery('/home/username/my-file.xml');
 // loads an XML document from a specific DOMNode object
 $doc = new DOMDocument("1.0", "UTF-8");
 $doc->loadXML('<root><item id="101" /><item id="102" /><item id="103" /></root>');
-$xml = new phpQuery(doc);
+$xml = new phpQuery($doc);
 ```
 
 #### Using the `query` method
@@ -63,12 +63,12 @@ $xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></
 // selects and prints all items
 $items = $xml->query("item");
 foreach ($items as $item) {
-    echo $item->html() . "\n";
+    echo $item . "\n";
 }
 
 // select and prints a single item
 $item = $xml->query("item[id = 102]");
-echo $item->html();
+echo $item;
 ```
 
 #### Using the `attr` and `text` methods:
@@ -87,7 +87,7 @@ foreach ($books as $book) {
 }
 
 // gets the number of items
-echo "Number of items: " . count($items);
+echo "Number of items: " . count($books);
 ```
 
 #### Using the `attr` and `text` methods to change attributes and inner texts:
@@ -106,7 +106,7 @@ $item->attr("title", "Item 666");
 // changes the inner text
 $item->text("I'm an inner text");
 
-echo $item->html("");
+echo $item;
 ```
 
 #### Using `prepend` and `append` methods:
@@ -114,7 +114,7 @@ echo $item->html("");
 You can use the `prepend` and `append` functions in two ways:
 
 1. `append(<string representation of the node>)`
-2. `append(<node name>, <list of attributes>, <callback function>)`
+2. `append(<node name>, <list of attributes>, <inner texts>, <callback function>)`
 
 ```PHP
 $xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
@@ -122,14 +122,17 @@ $xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></
 // inserts a new child node at the end
 $item = $xml->query("item[id = 102]");
 $item->append('<subitem id="102.1" title="Subitem title">Some text here ...</subitem>');
-echo $xml->html();
+echo $xml;
 
-// inserts a new child node at the beggining
 // this is another way to insert a node
+$item->append("subitem", array("id" => "102.1", "title" => "Subitem title"), "Some text here ...");
+echo $xml;
+
+// and this is another way
 $item->prepend('subitem', array("id" => "102.2", "title" => "Subitem title"), function ($subitem) {
     $subitem->text("I'm the first child node ...");
 });
-echo $xml->html();
+echo $xml;
 ```
 
 #### Using the `remove` and `clear` methods:
