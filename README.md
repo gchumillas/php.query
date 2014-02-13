@@ -134,11 +134,11 @@ $item->append('<subitem id="102.1" title="Subitem title">Some text here ...</sub
 echo $xml;
 
 // this is another way to insert a node
-$item->append("subitem", array("id" => "102.1", "title" => "Subitem title"), "Some text here ...");
+$item->append("<subitem />", array("id" => "102.1", "title" => "Subitem title"), "Some text here ...");
 echo $xml;
 
 // and this is another way
-$item->prepend('subitem', array("id" => "102.2", "title" => "Subitem title"), function ($subitem) {
+$item->prepend('<subitem />', array("id" => "102.2", "title" => "Subitem title"), function ($subitem) {
     $subitem->text("I'm the first child node ...");
 });
 echo $xml;
@@ -179,20 +179,20 @@ echo $xml->query("item[id = 102]")->attr("title", "Item 101")->text("Some text..
 You can use phpQuery to create XML documents from scratch. This is a very nice feature if you want to create arbitrary XML documents and want to ensure that the created documents are well formed:
 
 ```PHP
-$xml = new phpQuery('root', function ($target) {
+$xml = new phpQuery('<root />', function ($target) {
     // adding some items to the root node
     for ($i = 0; $i < 3; $i++) {
-        $target->append("item", array("id" => $i, "title" => "Item $i"), function ($target) use ($i) {
+        $target->append("<item />", array("id" => $i, "title" => "Item $i"), function ($target) use ($i) {
             $target->text("This is the item $i");
         });
     }
     
     // prepends a node
-    $target->prepend("title", "This is the main title ...");
+    $target->prepend("<title />", "This is the main title ...");
     
     // appends a complex node
-    $target->append("node", array("title" => "Complex node"), function ($node) {
-        $node->append("item", array("id" => 1, "title" => "Subitem 1"), function ($target) {
+    $target->append("<node />", array("title" => "Complex node"), function ($node) {
+        $node->append("<item />", array("id" => 1, "title" => "Subitem 1"), function ($target) {
             $target->text("I'm on the subway");
         });
     });
