@@ -122,8 +122,8 @@ echo $item;
 
 You can use the `prepend` and `append` functions in two ways:
 
-1. `append(<string representation of the node>)`
-2. `append(<node name>, <optional list of attributes>, <optional inner texts>, <optional callback function>)`
+1. `append(<xml segment>)`
+2. `append(<xml segment>, <optional list of attributes>, <optional inner texts>, <optional callback function>)`
 
 ```PHP
 $xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
