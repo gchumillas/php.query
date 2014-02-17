@@ -1,6 +1,6 @@
 <?php
 /**
- * This file contains the Arr class.
+ * This file contains the ArrHelper class.
  * 
  * PHP Version 5.3
  * 
@@ -10,12 +10,12 @@
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-namespace com\soloproyectos\core\arr;
-use com\soloproyectos\core\arr\arguments\ArrArguments;
-use com\soloproyectos\core\arr\arguments\ArrArgumentsDescriptor;
+namespace com\soloproyectos\common\arr;
+use com\soloproyectos\common\arr\arguments\ArrArguments;
+use com\soloproyectos\common\arr\arguments\ArrArgumentsDescriptor;
 
 /**
- * Class Arr.
+ * Class ArrHelper.
  * 
  * @category Tools_And_Utilities
  * @package  Arr
@@ -23,9 +23,8 @@ use com\soloproyectos\core\arr\arguments\ArrArgumentsDescriptor;
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-class Arr
+class ArrHelper
 {
-    
     /**
      * Gets an attribute from a given array.
      * 
@@ -62,7 +61,7 @@ class Arr
      * 
      * @return boolean
      */
-    public static function exist($arr, $name)
+    public static function is($arr, $name)
     {
         return array_key_exists($name, $arr);
     }
@@ -83,6 +82,26 @@ class Arr
     }
     
     /**
+     * Appends or prepends an object into an array.
+     * 
+     * @param array   $arr     Array object (passed by reference)
+     * @param mixed   $obj     Object
+     * @param boolean $prepend Inserts at the beginning (default is false)
+     * 
+     * @return array
+     */
+    public function add(&$arr, $obj, $prepend = false)
+    {
+        if ($prepend) {
+            array_unshift($arr, $obj);
+        } else {
+            array_push($arr, $obj);
+        }
+        
+        return $arr;
+    }
+    
+    /**
      * Fetches the elements of an array that matches a given list of descriptors.
      * 
      * <p>This function is especially suitable for getting optional arguments.
@@ -94,7 +113,7 @@ class Arr
      * 'string', 'array', 'objetc', 'resource', 'function'.</p>
      * <pre>
      * function test($title, $message, $x, $y, $options) {
-     *      $args = Arr::fetch(func_get_args(), array(
+     *      $args = ArrHelper::fetch(func_get_args(), array(
      *          "title" => "string",
      *          "message" => array(
      *              "type" => "string",
@@ -137,10 +156,10 @@ class Arr
             if (is_string($descriptor)) {
                 $types = explode("|", $descriptor);
             } elseif (is_array($descriptor)) {
-                $types = explode("|", Arr::get($descriptor, "type"));
-                $default = Arr::get($descriptor, "default");
-                $required = Arr::get(
-                    $descriptor, "required", !Arr::exist($descriptor, "default")
+                $types = explode("|", ArrHelper::get($descriptor, "type"));
+                $default = ArrHelper::get($descriptor, "default");
+                $required = ArrHelper::get(
+                    $descriptor, "required", !ArrHelper::is($descriptor, "default")
                 );
             }
             

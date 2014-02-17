@@ -10,7 +10,7 @@
  * @license  https://raw2.github.com/soloproyectos/php.common-libs/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/php.common-libs
  */
-namespace com\soloproyectos\core\xml\dom;
+namespace com\soloproyectos\common\xml\dom;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
@@ -28,17 +28,6 @@ use DOMNode;
  */
 class XmlDomHelper
 {
-    
-    /**
-     * This is a library of static functions, not a class. It couldn't be
-     * instantiated.
-     * 
-     * @return void
-     */
-    private function __construct()
-    {
-    }
-    
     /**
      * Gets the previous sibling DOMElement object.
      * 

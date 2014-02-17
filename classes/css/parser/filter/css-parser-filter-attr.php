@@ -10,9 +10,9 @@
  * @license  https://raw2.github.com/soloproyectos/php.common-libs/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/php.common-libs
  */
-namespace com\soloproyectos\core\css\parser\filter;
+namespace com\soloproyectos\common\css\parser\filter;
 use DOMElement;
-use com\soloproyectos\core\css\parser\filter\CssParserFilter;
+use com\soloproyectos\common\css\parser\filter\CssParserFilter;
 
 /**
  * Class CssParserFilterAttr.

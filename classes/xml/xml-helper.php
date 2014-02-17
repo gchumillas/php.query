@@ -1,6 +1,6 @@
 <?php
 /**
- * This file contains the Xml class.
+ * This file contains the XmlHelper class.
  * 
  * PHP Version 5.3
  * 
@@ -10,10 +10,10 @@
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-namespace com\soloproyectos\core\xml;
+namespace com\soloproyectos\common\xml;
 
 /**
- * Class Xml.
+ * Class XmlHelper.
  * 
  * This class is used to create XML documents.
  * 
@@ -23,26 +23,15 @@ namespace com\soloproyectos\core\xml;
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-class Xml
+class XmlHelper
 {
-    
-    /**
-     * This is a library of static functions, not a class. It couldn't be
-     * instantiated.
-     * 
-     * @return void
-     */
-    private function __construct()
-    {
-    }
-    
     /**
      * Gets a CDATA block.
      * 
      * <p>This function wraps a text in a CDATA block. For example:</p>
-     * <code>// cdata example
+     * <pre>// cdata example
      * echo Xml::cdata("hello there!"); // prints &lt;![CDATA[hello there!]]&gt;
-     * </code>
+     * </pre>
      * 
      * @param string $text A string
      * 
@@ -60,9 +49,9 @@ class Xml
      * <p>This function escapes a text to be used as an argument in an XML node.
      * This function is equivalent to htmlentities. For example:</p>
      * 
-     * <code>// attr example
+     * <pre>// attr example
      * echo Xml::attr("M & Em's"); // prints "M &amp;amp; Em's"
-     * </code>
+     * </pre>
      * 
      * @param string $text A string
      * 
@@ -77,9 +66,9 @@ class Xml
      * Gets an XML comment.
      * 
      * <p>This function wraps a text in a XML comment. For example:</p>
-     * <code>// comment example
+     * <pre>// comment example
      * echo Xml::comment("hello there!"); // prints "&lt;!--hello there!--&gt;"
-     * </code>
+     * </pre>
      * 
      * @param string $text A string
      * 

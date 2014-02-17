@@ -10,11 +10,11 @@
  * @license  https://raw2.github.com/soloproyectos/php.common-libs/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/php.common-libs
  */
-namespace com\soloproyectos\core\css\parser\model;
+namespace com\soloproyectos\common\css\parser\model;
 use DOMElement;
 use DOMNode;
-use com\soloproyectos\core\css\parser\model\CssParserModelFactor;
-use com\soloproyectos\core\xml\dom\XmlDomHelper;
+use com\soloproyectos\common\css\parser\model\CssParserModelFactor;
+use com\soloproyectos\common\xml\dom\XmlDomHelper;
 
 /**
  * Class CssParserModelSelector.
@@ -29,7 +29,6 @@ use com\soloproyectos\core\xml\dom\XmlDomHelper;
  */
 class CssParserModelSelector
 {
-    
     /**
      * List of factors.
      * @var array of CssParserModelFactor objects

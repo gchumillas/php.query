@@ -10,8 +10,8 @@
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-namespace com\soloproyectos\core\xml;
-use com\soloproyectos\core\xml\query\XmlQuery;
+namespace com\soloproyectos\common\xml;
+use com\soloproyectos\common\xml\query\XmlQuery;
 require_once __DIR__ . "/autoload.php";
 
 /**

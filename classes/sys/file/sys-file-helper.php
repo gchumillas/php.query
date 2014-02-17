@@ -1,6 +1,6 @@
 <?php
 /**
- * This file contains the SysFile class.
+ * This file contains the SysFileHelper class.
  * 
  * PHP Version 5.3
  * 
@@ -10,12 +10,12 @@
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-namespace com\soloproyectos\core\sys\file;
-use com\soloproyectos\core\text\Text;
-use com\soloproyectos\core\sys\exception\SysException;
+namespace com\soloproyectos\common\sys\file;
+use com\soloproyectos\common\text\TextHelper;
+use com\soloproyectos\common\sys\exception\SysException;
 
 /**
- * Class SysFile.
+ * Class SysFileHelper.
  * 
  * This class is used to access to the file system.
  * 
@@ -25,18 +25,17 @@ use com\soloproyectos\core\sys\exception\SysException;
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-class SysFile
+class SysFileHelper
 {
-    
     /**
      * Concatenates filenames.
      * 
      * <p>This function concatenates several filenames into a new one. For
      * example:</p>
      * 
-     * <code>// the next command prints "dir1/dir2/test.txt"
+     * <pre>// the next command prints "dir1/dir2/test.txt"
      * echo SysFile::concat("dir1", "/dir2", "test.txt");
-     * </code>
+     * </pre>
      * 
      * @param string $file One or more files
      * 
@@ -53,19 +52,19 @@ class SysFile
             $args = array_merge($args, $values);
         }
         
-        return Text::concat("/", $args);
+        return TextHelper::concat("/", $args);
     }
     
     /**
      * Gets a human readable size.
      * 
      * <p>This function gets an human readable size. For example:</p>
-     * <code>// human readable sizes:
+     * <pre>// human readable sizes:
      * echo SysFile::getHumanSize(13);           // prints 13 bytes
      * echo SysFile::getHumanSize(1024);         // prints 1K
      * echo SysFile::getHumanSize(4562154, 2);   // prints 4.35M (2 digits)
      * echo SysFile::getHumanSize(98543246875);  // prints 91.8G
-     * </code>
+     * </pre>
      * 
      * @param integer $size      Size in bytes
      * @param integer $precision Digit precision (default is 1)
@@ -93,9 +92,9 @@ class SysFile
      * example, if there's a file named 'test.txt' under de directory 'dir1', the
      * following command returns 'test_1.txt':</p>
      * 
-     * <code>// prints 'test_1.txt' if the name 'test.txt' is taken:
+     * <pre>// prints 'test_1.txt' if the name 'test.txt' is taken:
      * echo SysFile::getAvailName('dir1', 'test1.txt');
-     * </code>
+     * </pre>
      * 
      * @param string $dir     Directory
      * @param string $refname Filename used as reference (default is "")
@@ -115,7 +114,7 @@ class SysFile
         }
         
         // default refname
-        if (Text::isEmpty($refname)) {
+        if (TextHelper::isEmpty($refname)) {
             $refname = "file";
         }
         
@@ -128,16 +127,17 @@ class SysFile
         if ($pos !== false) {
             $name = substr($refname, 0, $pos);
             
-            if (Text::isEmpty($refext)) {
+            if (TextHelper::isEmpty($refext)) {
                 $ext = substr($refname, $pos + 1);
             }
         }
         
         // gets an available name
         for ($i = 0; $i < 100; $i++) {
-            $filename = $i > 0
-                ? SysFile::concat($dir, Text::concat(".", $name . "_" . $i, $ext))
-                : SysFile::concat($dir, Text::concat(".", $name, $ext));
+            $basename = $i > 0
+                ? TextHelper::concat(".", $name . "_" . $i, $ext)
+                : TextHelper::concat(".", $name, $ext);
+            $filename = SysFile::concat($dir, $basename);
             
             if (!is_file($filename)) {
                 break;

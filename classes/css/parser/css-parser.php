@@ -10,27 +10,27 @@
  * @license  https://raw2.github.com/soloproyectos/php.common-libs/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/php.common-libs
  */
-namespace com\soloproyectos\core\css\parser;
+namespace com\soloproyectos\common\css\parser;
 use ArrayObject;
 use Closure;
 use DOMDocument;
 use DOMElement;
 use DOMNode;
-use com\soloproyectos\core\arr\Arr;
-use com\soloproyectos\core\css\parser\combinator\CssParserCombinator;
-use com\soloproyectos\core\css\parser\combinator\CssParserCombinatorFactory;
-use com\soloproyectos\core\css\parser\filter\CssParserFilter;
-use com\soloproyectos\core\css\parser\filter\CssParserFilterAttr;
-use com\soloproyectos\core\css\parser\filter\CssParserFilterClass;
-use com\soloproyectos\core\css\parser\filter\CssParserFilterId;
-use com\soloproyectos\core\css\parser\filter\CssParserFilterPseudo;
-use com\soloproyectos\core\css\parser\filter\CssParserFilterPseudoFactory;
-use com\soloproyectos\core\css\parser\model\CssParserModelElement;
-use com\soloproyectos\core\css\parser\model\CssParserModelFactor;
-use com\soloproyectos\core\css\parser\model\CssParserModelSelector;
-use com\soloproyectos\core\text\parser\exception\TextParserException;
-use com\soloproyectos\core\text\parser\TextParser;
-use com\soloproyectos\core\xml\dom\XmlDomHelper;
+use com\soloproyectos\common\arr\ArrHelper;
+use com\soloproyectos\common\css\parser\combinator\CssParserCombinator;
+use com\soloproyectos\common\css\parser\combinator\CssParserCombinatorFactory;
+use com\soloproyectos\common\css\parser\filter\CssParserFilter;
+use com\soloproyectos\common\css\parser\filter\CssParserFilterAttr;
+use com\soloproyectos\common\css\parser\filter\CssParserFilterClass;
+use com\soloproyectos\common\css\parser\filter\CssParserFilterId;
+use com\soloproyectos\common\css\parser\filter\CssParserFilterPseudo;
+use com\soloproyectos\common\css\parser\filter\CssParserFilterPseudoFactory;
+use com\soloproyectos\common\css\parser\model\CssParserModelElement;
+use com\soloproyectos\common\css\parser\model\CssParserModelFactor;
+use com\soloproyectos\common\css\parser\model\CssParserModelSelector;
+use com\soloproyectos\common\text\parser\exception\TextParserException;
+use com\soloproyectos\common\text\parser\TextParser;
+use com\soloproyectos\common\xml\dom\XmlDomHelper;
  
 /**
  * Class CssParser.
@@ -419,7 +419,7 @@ class CssParser extends TextParser
             throw new TextParserException("Invalid identifier", $this);
         }
         
-        $filter = Arr::get($this->_pseudoFilters, $name, null);
+        $filter = ArrHelper::get($this->_pseudoFilters, $name, null);
         if ($filter === null) {
             throw new TextParserException("Unknown pseudo-filter", $this);
         }
@@ -781,12 +781,12 @@ class CssParser extends TextParser
                 $regexp = '@Content-Type:\s*([\w/+]+)(;\s*charset=(\S+))?@i';
                 if (preg_match($regexp, $line, $matches) > 0) {
                     if (strlen($mimetype) == 0) {
-                        $mimetype = Arr::exist($matches, 1)
+                        $mimetype = ArrHelper::is($matches, 1)
                             ? $matches[1]
                             : null;
                     }
                     if (strlen($charset) == 0) {
-                        $charset = Arr::exist($matches, 3)
+                        $charset = ArrHelper::is($matches, 3)
                             ? $matches[3]
                             : null;
                     }

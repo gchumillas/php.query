@@ -10,9 +10,9 @@
  * @license  https://raw2.github.com/soloproyectos/php.common-libs/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/php.common-libs
  */
-namespace com\soloproyectos\core\css\parser\filter;
+namespace com\soloproyectos\common\css\parser\filter;
 use Closure;
-use com\soloproyectos\core\css\parser\filter\CssParserFilterPseudo;
+use com\soloproyectos\common\css\parser\filter\CssParserFilterPseudo;
 
 /**
  * Class CssParserFilterPseudoFactory.
@@ -25,7 +25,6 @@ use com\soloproyectos\core\css\parser\filter\CssParserFilterPseudo;
  */
 class CssParserFilterPseudoFactory
 {
-    
     /**
      * Gets a psuedo-filter instance by class name.
      * 
@@ -38,7 +37,7 @@ class CssParserFilterPseudoFactory
     public static function getInstance(
         $classname, $input = "", $userDefFunction = null
     ) {
-        $fullname = "com\\soloproyectos\\core\\css\\parser\\filter\\"
+        $fullname = "com\\soloproyectos\\common\\css\\parser\\filter\\"
             . $classname;
         return new $fullname($input, $userDefFunction);
     }

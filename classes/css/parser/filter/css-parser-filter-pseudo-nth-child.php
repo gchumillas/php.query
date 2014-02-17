@@ -10,10 +10,10 @@
  * @license  https://raw2.github.com/soloproyectos/php.common-libs/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/php.common-libs
  */
-namespace com\soloproyectos\core\css\parser\filter;
+namespace com\soloproyectos\common\css\parser\filter;
 use DOMElement;
-use com\soloproyectos\core\css\parser\filter\CssParserFilterPseudo;
-use com\soloproyectos\core\xml\dom\XmlDomHelper;
+use com\soloproyectos\common\css\parser\filter\CssParserFilterPseudo;
+use com\soloproyectos\common\xml\dom\XmlDomHelper;
 
 /**
  * Class CssParserFilterPseudoNthChild.
@@ -28,7 +28,6 @@ use com\soloproyectos\core\xml\dom\XmlDomHelper;
  */
 class CssParserFilterPseudoNthChild extends CssParserFilterPseudo
 {
-    
     /**
      * Sibling position.
      * @var integer

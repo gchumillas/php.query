@@ -10,9 +10,9 @@
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-namespace com\soloproyectos\core\text\parser;
-use com\soloproyectos\core\text\parser\exception\TextParserException;
-use com\soloproyectos\core\text\tokenizer\TextTokenizer;
+namespace com\soloproyectos\common\text\parser;
+use com\soloproyectos\common\text\parser\exception\TextParserException;
+use com\soloproyectos\common\text\tokenizer\TextTokenizer;
 
 /**
  * class TextParser
@@ -82,7 +82,7 @@ abstract class TextParser extends TextTokenizer
      * <p>This function parses a string and throws an exception if unsuccessful. For
      * example:</p>
      * 
-     * <code>// parses a string
+     * <pre>// parses a string
      * $p = new MyCustomParser($string);
      * try {
      *     $info = $p->parse();
@@ -95,7 +95,7 @@ abstract class TextParser extends TextTokenizer
      * } else {
      *     print_r($info);
      * }
-     * </code>
+     * </pre>
      * 
      * @param string $string String target (default is "")
      * 

@@ -10,9 +10,9 @@
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-namespace com\soloproyectos\core\text\parser\exception;
-use com\soloproyectos\core\text\parser\TextParser;
-use com\soloproyectos\core\text\exception\TextException;
+namespace com\soloproyectos\common\text\parser\exception;
+use com\soloproyectos\common\text\parser\TextParser;
+use com\soloproyectos\common\text\exception\TextException;
 
 /**
  * class TextParserException

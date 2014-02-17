@@ -10,11 +10,11 @@
  * @license  https://raw2.github.com/soloproyectos/php.common-libs/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/php.common-libs
  */
-namespace com\soloproyectos\core\css\parser\combinator;
+namespace com\soloproyectos\common\css\parser\combinator;
 use Closure;
 use DOMElement;
-use com\soloproyectos\core\css\parser\exception\CssParserException;
-use com\soloproyectos\core\css\parser\combinator\CssParserCombinator;
+use com\soloproyectos\common\css\parser\exception\CssParserException;
+use com\soloproyectos\common\css\parser\combinator\CssParserCombinator;
 
 /**
  * Class CssParserCombinatorUserDefined.
@@ -29,7 +29,6 @@ use com\soloproyectos\core\css\parser\combinator\CssParserCombinator;
  */
 class CssParserCombinatorUserDefined extends CssParserCombinator
 {
-    
     /**
      * User defined function.
      * @var Closure

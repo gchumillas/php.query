@@ -1,35 +1,28 @@
 <?php
 /**
- * This file contains the TextException class.
+ * This file contains the SysCmdException class.
  * 
  * PHP Version 5.3
  * 
- * @category Text
- * @package  Text
+ * @category System
+ * @package  SysCmd
  * @author   Gonzalo Chumillas <gonzalo@soloproyectos.com>
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-namespace com\soloproyectos\common\text\exception;
-use Exception;
+namespace com\soloproyectos\common\sys\cmd\exception;
+use com\soloproyectos\common\sys\exception\SysException;
 
 /**
- * This file contains the TextException class.
+ * Class SysCmdException.
  * 
- * @author Gonzalo Chumillas <gonzalo@soloproyectos.com>
- * @package parser
- */
-
-/**
- * class TextException
- * 
- * @category Text
- * @package  Text
+ * @category System
+ * @package  SysCmd
  * @author   Gonzalo Chumillas <gonzalo@soloproyectos.com>
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-class TextException extends Exception
+class SysCmdException extends SysException
 {
-        
+    
 }

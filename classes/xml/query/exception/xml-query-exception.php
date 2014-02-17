@@ -10,9 +10,9 @@
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-namespace com\soloproyectos\core\xml\query\exception;
-use com\soloproyectos\core\xml\exception\XmlException;
-use com\soloproyectos\core\xml\query\XmlQuery;
+namespace com\soloproyectos\common\xml\query\exception;
+use com\soloproyectos\common\xml\exception\XmlException;
+use com\soloproyectos\common\xml\query\XmlQuery;
 
 /**
  * Class XmlQueryException.
@@ -25,7 +25,6 @@ use com\soloproyectos\core\xml\query\XmlQuery;
  */
 class XmlQueryException extends XmlException
 {
-    
     /**
      * Constructor.
      * 

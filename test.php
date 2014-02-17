@@ -1,5 +1,5 @@
 <?php
-use com\soloproyectos\core\xml\phpQuery;
+use com\soloproyectos\common\xml\phpQuery;
 require_once "classes/php-query.php";
 header("Content-type: text/plain; charset=UTF-8");
 
@@ -58,11 +58,11 @@ echo $item . "\n";
 echo "\n*** Example 5: adding new nodes ***\n\n";
 $authors = $xml->query("authors");
 // adds a new science fiction author
-$authors->append("item", array("id" => "ray-bradbury", "title" => "Ray Bradbury"), function ($target) {
-    $target->append("name")->text("Ray Bradbury");
-    $target->append("born")->text("1920-08-22");
-    $target->append("died")->text("2012-06-05");
-    $target->append("bio")->text("Ray Douglas Bradbury was an American fantasy, science fiction, horror and mystery fiction writer.");
+$authors->append("<item />", array("id" => "ray-bradbury", "title" => "Ray Bradbury"), function ($target) {
+    $target->append("<name />")->text("Ray Bradbury");
+    $target->append("<born />")->text("1920-08-22");
+    $target->append("<died />")->text("2012-06-05");
+    $target->append("<bio />")->text("Ray Douglas Bradbury was an American fantasy, science fiction, horror and mystery fiction writer.");
 });
 // another way to add a new record
 $authors->prepend(

@@ -10,16 +10,16 @@
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-namespace com\soloproyectos\core\arr\arguments;
+namespace com\soloproyectos\common\arr\arguments;
 use Exception;
-use com\soloproyectos\core\arr\Arr;
+use com\soloproyectos\common\arr\ArrHelper;
 use InvalidArgumentException;
 
 /**
  * Class ArrArguments.
  * 
  * @category Tools_And_Utilities
- * @package  Arr
+ * @package  ArrArguments
  * @author   Gonzalo Chumillas <gonzalo@soloproyectos.com>
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core

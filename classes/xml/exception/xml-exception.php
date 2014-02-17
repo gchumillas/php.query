@@ -10,7 +10,7 @@
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-namespace com\soloproyectos\core\xml\exception;
+namespace com\soloproyectos\common\xml\exception;
 use Exception;
 
 /**

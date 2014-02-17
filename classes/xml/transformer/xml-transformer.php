@@ -10,9 +10,9 @@
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-namespace com\soloproyectos\core\xml\transformer;
-use com\soloproyectos\core\arr\Arr;
-use com\soloproyectos\core\xml\Xml;
+namespace com\soloproyectos\common\xml\transformer;
+use com\soloproyectos\common\arr\ArrHelper;
+use com\soloproyectos\common\xml\XmlHelper;
 
 /**
  * Class XmlTransformer.
@@ -209,7 +209,7 @@ abstract class XmlTransformer
     {
         $this->_tagName = $name;
         $this->_tagAttrs = $attrs;
-        if (Arr::exist($this->_startHandlers, $name)) {
+        if (ArrHelper::is($this->_startHandlers, $name)) {
             $this->_output .= call_user_func(
                 $this->_startHandlers[$name],
                 $name,
@@ -219,7 +219,7 @@ abstract class XmlTransformer
             $attrsStr = null;
             if (count($attrs) > 0) {
                 foreach ($attrs as $key => $value) {
-                    $attrsStr .= ' ' . $key . '="' . Xml::attr($value) . '"';
+                    $attrsStr .= ' ' . $key . '="' . XmlHelper::attr($value) . '"';
                 }
             }
             $this->_output .=  "<$name$attrsStr>";
@@ -236,7 +236,7 @@ abstract class XmlTransformer
      */
     private function _defaultEndHandler($parser, $name)
     {
-        if (Arr::exist($this->_endHandlers, $name)) {
+        if (ArrHelper::is($this->_endHandlers, $name)) {
             $this->_output .= call_user_func(
                 $this->_endHandlers[$name],
                 $name,
@@ -259,7 +259,7 @@ abstract class XmlTransformer
      */
     private function _defaultDataHandler($parser, $data)
     {
-        if (Arr::exist($this->_dataHandlers, $this->_tagName)) {
+        if (ArrHelper::is($this->_dataHandlers, $this->_tagName)) {
             $this->_output .= call_user_func(
                 $this->_dataHandlers[$this->_tagName],
                 $this->_tagName,

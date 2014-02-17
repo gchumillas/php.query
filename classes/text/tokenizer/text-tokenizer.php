@@ -10,7 +10,7 @@
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-namespace com\soloproyectos\core\text\tokenizer;
+namespace com\soloproyectos\common\text\tokenizer;
 
 /**
  * Class TextTokenizer
@@ -242,12 +242,12 @@ class TextTokenizer
      * <p>This function returns false if there are no more tokens or an array with a
      * single string. For example:</p>
      * 
-     * <code>// splits a string into tokens
+     * <pre>// splits a string into tokens
      * $t = new TextTokenizer("lorem ipsum; dolor sit amet.");
      * while (list($token) = $t->token()) {
      *     echo "$token-";
      * }
-     * </code>
+     * </pre>
      * 
      * @return false|array of a single string
      */
@@ -289,32 +289,32 @@ class TextTokenizer
      * string. Otherwise, it returns false. You can use regex without delimiters.
      * Instead of using /^\s*(\w+)/, you can use simply '\w+'. For example:</p>
      * 
-     * <code>// these two lines are identical
+     * <pre>// these two lines are identical
      * if ($t->match("\w+")) doSomething();
      * if ($t->match("/^\s*(\w+)/")) doSomething();
-     * </code>
+     * </pre>
      * 
      * <p>Example 1:</p>
      * 
-     * <code>// splits a string into "words"
+     * <pre>// splits a string into "words"
      * $t = new TextTokenizer("Lorem ipsum dolor sit amet");
      * while (list($token) = $t->match("\w+", $matches)) {
      *     echo "$token-";
      * }
-     * </code>
+     * </pre>
      * 
      * <p>Example 2:</p>
      * 
-     * <code>// captures the offset
+     * <pre>// captures the offset
      * $t = new TextTokenizer("I am 105 years old");
      * if ($t->match("/\d+/", $matches, TextTokenizer::OFFSET_CAPTURE)) {
      *     print_r($matches);
      * }
-     * </code>
+     * </pre>
      * 
      * <p>Example 3:</p>
      * 
-     * <code>// parses a basic SQL sentence
+     * <pre>// parses a basic SQL sentence
      * $t = new TextTokenizer("Select Id, Name, Age From users Where Id = 101");
      * if ($t->match("select")) {
      *     // columns
@@ -332,7 +332,7 @@ class TextTokenizer
      *              " from the table $tableName.";
      *     }
      * }
-     * </code>
+     * </pre>
      * 
      * @param string  $regexp  Regular expression
      * @param array   $matches Matches (default is array(), passed by reference)

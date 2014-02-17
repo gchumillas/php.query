@@ -10,9 +10,9 @@
  * @license  https://raw2.github.com/soloproyectos/php.common-libs/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/php.common-libs
  */
-namespace com\soloproyectos\core\css\parser\combinator;
+namespace com\soloproyectos\common\css\parser\combinator;
 use Closure;
-use com\soloproyectos\core\css\parser\combinator\CssParserCombinator;
+use com\soloproyectos\common\css\parser\combinator\CssParserCombinator;
 
 /**
  * Class CssParserCombinatorFactory.
@@ -35,7 +35,7 @@ class CssParserCombinatorFactory
      */
     public static function getInstance($classname, $userDefFunction = null)
     {
-        $class = "com\\soloproyectos\\core\\css\\parser\\combinator\\"
+        $class = "com\\soloproyectos\\common\\css\\parser\\combinator\\"
             . $classname;
         return new $class($userDefFunction);
     }

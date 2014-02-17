@@ -10,26 +10,21 @@
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-namespace com\soloproyectos\core\xml\query;
-use ArrayAccess;
+namespace com\soloproyectos\common\xml\query;
 use Closure;
-use DomainException;
 use DOMDocument;
 use DOMElement;
 use DOMException;
 use DOMNode;
 use DOMNodeList;
 use DOMXPath;
-use Countable;
-use InvalidArgumentException;
-use Iterator;
 use Traversable;
-use com\soloproyectos\core\arr\Arr;
-use com\soloproyectos\core\css\parser\CssParser;
-use com\soloproyectos\core\text\Text;
-use com\soloproyectos\core\xml\dom\XmlDomHelper;
-use com\soloproyectos\core\xml\query\exception\XmlQueryException;
-use com\soloproyectos\core\xml\query\exception\XmlQueryExceptionInvalidDocument;
+use com\soloproyectos\common\arr\ArrHelper;
+use com\soloproyectos\common\css\parser\CssParser;
+use com\soloproyectos\common\text\TextHelper;
+use com\soloproyectos\common\xml\dom\XmlDomHelper;
+use com\soloproyectos\common\xml\query\exception\XmlQueryException;
+use com\soloproyectos\common\xml\query\XmlQueryTransversable;
 
 /**
  * Class XmlQuery.
@@ -43,14 +38,8 @@ use com\soloproyectos\core\xml\query\exception\XmlQueryExceptionInvalidDocument;
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-class XmlQuery implements Countable, Iterator, ArrayAccess
+class XmlQuery extends XmlQueryTransversable
 {
-    /**
-     * List of DOMNode objects.
-     * @var array of DOMNode
-     */
-    private $_items;
-    
     /**
      * Constructor.
      * 
@@ -61,12 +50,12 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
      * $q = new XmlQuery("/home/john/myfile.xml");
      * $q = new XmlQuery($domNode);
      * $q = new XmlQuery($arrayOfDomNodes);
-     * </code>
+     * </pre>
      * 
      * @param string|array|DOMNode|XmlQuery $source   Source (not required)
      * @param array                         $attrs    Attributes (not required)
      * @param string                        $text     Inner text (not required)
-     * @param Callable                      $callback Callback function (not
+     * @param Closure                       $callback Callback function (not
      *                                                required)
      * 
      * @return void
@@ -77,15 +66,15 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
         $text = null,
         $callback = null
     ) {
-        $this->items = array();
+        parent::__construct();
         
         // loads arguments. Some of these arguments are optional
-        $args = Arr::fetch(
+        $args = ArrHelper::fetch(
             func_get_args(),
             array(
                 "source" => array(
                     "type" => "string|array|Traversable|DOMNode|DOMNodeList" .
-                        "|com\soloproyectos\core\xml\query\XmlQuery",
+                        "|com\soloproyectos\common\xml\query\XmlQuery",
                     "default" => array()
                 ),
                 "attrs" => array(
@@ -116,7 +105,7 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
             call_user_func(array($this, "_loadFromArray"), $args["source"]);
         } else {
             $type = is_object($source)? get_class($source) : gettype($source);
-            throw new InvalidArgumentException(
+            throw new XmlQueryException(
                 "The first parameter was expected to be " .
                 "string|array|Traversable|DOMNode|DOMNodeList|XmlQuery, $type given"
             );
@@ -195,18 +184,18 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
             $str = "";
             foreach ($errors as $error) {
                 $message = trim($error->message);
-                $str = Text::concat(
+                $str = TextHelper::concat(
                     "\n",
                     $str,
                     "$message on line {$error->line}, column {$error->column}"
                 );
             }
             
-            throw new XmlQueryExceptionInvalidDocument($str);
+            throw new XmlQueryException($str);
         }
         
         // there is only one item: the root of the document
-        $this->_items = array($doc->documentElement);
+        $this->items = array($doc->documentElement);
     }
     
     /**
@@ -218,7 +207,7 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
      */
     private function _loadFromQuery($query)
     {
-        $this->_items = $query->_items;
+        $this->items = $query->items;
     }
     
     /**
@@ -230,7 +219,7 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
      */
     private function _loadFromNode($node)
     {
-        $this->_items = array($node);
+        $this->items = array($node);
     }
     
     /**
@@ -242,9 +231,9 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
      */
     private function _loadFromArray($items)
     {
-        $this->_items = array();
+        $this->items = array();
         foreach ($items as $item) {
-            array_push($this->_items, $item);
+            array_push($this->items, $item);
         }
     }
     
@@ -305,7 +294,7 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
         $data = $node->hasAttribute("__data__")
             ? unserialize($node->getAttribute("__data__"))
             : array();
-        return Arr::get($data, $name);
+        return ArrHelper::get($data, $name);
     }
     
     /**
@@ -348,7 +337,7 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
      */
     public function load($source)
     {
-        $this->_items = array();
+        $this->items = array();
         $this->_loadFromString($source);
     }
     
@@ -361,7 +350,7 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
     {
         $parents = array();
         
-        foreach ($this->_items as $item) {
+        foreach ($this->items as $item) {
             $parent = $item->parentNode;
             if ($parent !== null
                 && !$parent instanceof DOMDocument
@@ -383,7 +372,7 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
      * $item = $xml->query("item[id = 1]");
      * $item->data("myArray", array(1, 2, 3)); // saves an array into the item(s)
      * print_r($item->data("myArray"));        // prints the array
-     * </code>
+     * </pre>
      * 
      * @param string $name  Identifier
      * @param mixed  $value A value (not required)
@@ -395,7 +384,7 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
         $ret = $this;
         
         if (func_num_args() > 1) {
-            foreach ($this->_items as $item) {
+            foreach ($this->items as $item) {
                 $this->_setData($item, $name, $value);
             }
         } else {
@@ -416,7 +405,7 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
      * foreach ($items as $item) {
      *      echo "$item\n";
      * }
-     * </code>
+     * </pre>
      * 
      * @param string $query CSS selector expression
      * 
@@ -426,7 +415,7 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
     {
         $nodes = array();
         
-        foreach ($this->_items as $item) {
+        foreach ($this->items as $item) {
             $parser = new CssParser($item);
             $items = $parser->query($query);
             $nodes = XmlDomHelper::mergeNodes($nodes, $items->getArrayCopy());
@@ -449,7 +438,7 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
     {
         $nodes = array();
         
-        foreach ($this->_items as $item) {
+        foreach ($this->items as $item) {
             $doc = XmlDomHelper::getOwnerDocument($item);
             $xpath = new DOMXPath($doc);
             array_push($nodes, $xpath->query($query, $current));
@@ -467,7 +456,7 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
      */
     public function clear()
     {
-        foreach ($this->_items as $item) {
+        foreach ($this->items as $item) {
             XmlDomHelper::removeChildNodes($item);
         }
         
@@ -481,7 +470,7 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
      */
     public function remove()
     {
-        foreach ($this->_items as $item) {
+        foreach ($this->items as $item) {
             $parent = $item->parentNode;
             
             if ($parent !== null) {
@@ -541,11 +530,11 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
      */
     public function append($source, $attrs = null, $text = null, $callback = null)
     {
-        $args = Arr::fetch(
+        $args = ArrHelper::fetch(
             func_get_args(),
             array(
                 "source" => "string|DOMNode|"
-                    . "com\soloproyectos\core\xml\query\XmlQuery",
+                    . "com\soloproyectos\common\xml\query\XmlQuery",
                 "attrs" => array(
                     "type" => "array",
                     "default" => array()
@@ -563,37 +552,41 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
         
         // gets HTML code
         $html = "";
-        if ($args["source"] instanceof XmlQuery) {
-            $html = "" . $args["source"];
-        } elseif ($args["source"] instanceof DOMNode) {
+        if ($args["source"] instanceof DOMNode) {
             $html = XmlDomHelper::dom2str($args["source"]);
         } else {
-            $html = trim($args["source"]);
+            $html = trim("$args[source]");
         }
         
-        if (preg_match("/^\w+$/", $html)) {
-            $html = "<$html />";
-        }
-        
-        foreach ($this->_items as $item) {
-            $doc = XmlDomHelper::getOwnerDocument($item);
-            $node = $doc->createDocumentFragment();
-            $node->appendXML($html);
-            $target = new XmlQuery($item->appendChild($node));
-            
-            // sets the attributes
-            foreach ($args["attrs"] as $name => $value) {
-                $target->attr($name, $value);
-            }
-            
-            // sets text
-            if ($args["text"] !== null) {
-                $target->text($args["text"]);
-            }
-            
-            // calls the callback
-            if ($args["callback"] !== null) {
-                $args["callback"]($target);
+        if (!TextHelper::isEmpty($html)) {
+            foreach ($this->items as $item) {
+                $doc = XmlDomHelper::getOwnerDocument($item);
+                $fragment = $doc->createDocumentFragment();
+                @$fragment->appendXML($html);
+                $node = @$item->appendChild($fragment);
+                
+                if ($node === false) {
+                    throw new XmlQueryException(
+                        "Invalid XML fragment: $html"
+                    );
+                }
+                
+                $target = new XmlQuery($node);
+                
+                // sets the attributes
+                foreach ($args["attrs"] as $name => $value) {
+                    $target->attr($name, $value);
+                }
+                
+                // sets text
+                if ($args["text"] !== null) {
+                    $target->text($args["text"]);
+                }
+                
+                // calls the callback
+                if ($args["callback"] !== null) {
+                    $args["callback"]($target);
+                }
             }
         }
         
@@ -651,11 +644,11 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
     public function prepend($source, $attrs = null, $text = null, $callback = null)
     {
         $ret = null;
-        $args = Arr::fetch(
+        $args = ArrHelper::fetch(
             func_get_args(),
             array(
                 "source" => "string|DOMNode|"
-                    . "com\soloproyectos\core\xml\query\XmlQuery",
+                    . "com\soloproyectos\common\xml\query\XmlQuery",
                 "attrs" => array(
                     "type" => "array",
                     "default" => array()
@@ -673,39 +666,41 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
         
         // gets HTML code
         $html = "";
-        if ($args["source"] instanceof XmlQuery) {
-            $html = "" . $args["source"];
-        } elseif ($args["source"] instanceof DOMNode) {
+        if ($args["source"] instanceof DOMNode) {
             $html = XmlDomHelper::dom2str($args["source"]);
         } else {
-            $html = trim($args["source"]);
+            $html = trim("$args[source]");
         }
         
-        if (preg_match("/^\w+$/", $html)) {
-            $html = "<$html />";
-        }
-        
-        foreach ($this->_items as $item) {
-            $doc = XmlDomHelper::getOwnerDocument($item);
-            $node = $doc->createDocumentFragment();
-            $node->appendXML($html);
-            $target = new XmlQuery(
-                $item->insertBefore($node, $item->firstChild)
-            );
-            
-            // sets the attributes
-            foreach ($args["attrs"] as $name => $value) {
-                $target->attr($name, $value);
-            }
-            
-            // sets text
-            if ($args["text"] !== null) {
-                $target->text($args["text"]);
-            }
-            
-            // calls the callback
-            if ($args["callback"] !== null) {
-                $args["callback"]($target);
+        if (!TextHelper::isEmpty($html)) {
+            foreach ($this->items as $item) {
+                $doc = XmlDomHelper::getOwnerDocument($item);
+                $fragment = $doc->createDocumentFragment();
+                @$fragment->appendXML($html);
+                $node = @$item->insertBefore($fragment, $item->firstChild);
+                
+                if ($node === false) {
+                    throw new XmlQueryException(
+                        "Invalid XML fragment: $html"
+                    );
+                }
+                
+                $target = new XmlQuery($node);
+                
+                // sets the attributes
+                foreach ($args["attrs"] as $name => $value) {
+                    $target->attr($name, $value);
+                }
+                
+                // sets text
+                if ($args["text"] !== null) {
+                    $target->text($args["text"]);
+                }
+                
+                // calls the callback
+                if ($args["callback"] !== null) {
+                    $args["callback"]($target);
+                }
             }
         }
         
@@ -720,7 +715,7 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
     public function name()
     {
         $ret = "";
-        foreach ($this->_items as $item) {
+        foreach ($this->items as $item) {
             $ret = $item->nodeName;
             break;
         }
@@ -758,7 +753,7 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
         $ret = $this;
         
         if (func_num_args() > 1) {
-            foreach ($this->_items as $item) {
+            foreach ($this->items as $item) {
                 try {
                     $item->setAttribute($name, $value);
                 } catch (DOMException $e) {
@@ -802,7 +797,7 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
         $ret = $this;
         
         if (func_num_args() > 0) {
-            foreach ($this->_items as $item) {
+            foreach ($this->items as $item) {
                 $item->nodeValue = $value;
             }
         } else {
@@ -842,13 +837,19 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
         $ret = $this;
         
         if (func_num_args() > 0) {
-            foreach ($this->_items as $item) {
+            foreach ($this->items as $item) {
                 $doc = XmlDomHelper::getOwnerDocument($item);
-                $node = $doc->createDocumentFragment();
-                $node->appendXML($innerText);
+                $fragment = $doc->createDocumentFragment();
+                @$fragment->appendXML($innerText);
                 
                 XmlDomHelper::removeChildNodes($item);
-                $item->appendChild($node);
+                $node = @$item->appendChild($fragment);
+                
+                if ($node === false) {
+                    throw new XmlQueryException(
+                        "Invalid XML fragment: $innerText"
+                    );
+                }
             }
         } else {
             $ret = count($this) > 0? XmlDomHelper::getInnerHtml($this[0]): "";
@@ -893,160 +894,9 @@ class XmlQuery implements Countable, Iterator, ArrayAccess
     public function __toString()
     {
         $ret = "";
-        foreach ($this->_items as $item) {
-            $ret = Text::concat("\n", $ret, XmlDomHelper::dom2str($item));
+        foreach ($this->items as $item) {
+            $ret = TextHelper::concat("\n", $ret, XmlDomHelper::dom2str($item));
         }
         return $ret;
-    }
-    
-    /***************************
-     * Iterator implementation *
-     ***************************/
-
-    /**
-     * Gets the current node.
-     * 
-     * This function implements the Iterator::current() method.
-     * 
-     * @ignore
-     * @return boolean|XmlQuery
-     */
-    public function current()
-    {
-        return ($item = current($this->_items))? new XmlQuery($item) : false;
-    }
-
-    /**
-     * Advances to the next node.
-     * 
-     * This function implements the Iterator::next() method.
-     * 
-     * @ignore
-     * @return XmlQuery
-     */
-    public function next()
-    {
-        return ($item = next($this->_items))? new XmlQuery($item) : false;
-    }
-
-    /**
-     * Gets the internal pointer.
-     * 
-     * This function implements the Iterator::key() method.
-     * 
-     * @ignore
-     * @return integer
-     */
-    public function key()
-    {
-        return key($this->_items);
-    }
-
-    /**
-     * Rewinds the internal pointer.
-     * 
-     * This function implements the Iterator::rewind() method.
-     * 
-     * @ignore
-     * @return void
-     */
-    public function rewind()
-    {
-        reset($this->_items);
-    }
-
-    /**
-     * Is a valid internal position?
-     * 
-     * This function implements the Iterator::valid() method.
-     * 
-     * @ignore
-     * @return boolean
-     */
-    public function valid()
-    {
-        return (key($this->_items) !== null);
-    }
-    
-    /******************************
-     * ArrayAccess implementation *
-     ******************************/
-
-    /**
-     * Does the DOMNode exist at a given position?
-     * 
-     * This function implements the ArrayAccess::offsetExists() method.
-     * 
-     * @param integer $offset Node position
-     * 
-     * @ignore
-     * @return boolean
-     */
-    public function offsetExists($offset)
-    {
-        return Arr::exist($this->_items, $offset);
-    }
-
-    /**
-     * Gets a node by a given position.
-     * 
-     * This function implements the ArrayAccess::offsetGet() method.
-     * 
-     * @param integer $offset Node position
-     * 
-     * @ignore
-     * @return DOMNode
-     */
-    public function offsetGet($offset)
-    {
-        return $this->_items[$offset];
-    }
-
-    /**
-     * Sets a node by a given position.
-     * 
-     * This function implements the ArrayAccess::offsetSet() method.
-     * 
-     * @param integer $offset Node position
-     * @param DOMNode $value  A node object
-     * 
-     * @ignore
-     * @return void
-     */
-    public function offsetSet($offset, $value)
-    {
-        $this->_items[$offset] = $value;
-    }
-
-    /**
-     * Unsets a node by a given position.
-     * 
-     * This function implements the ArrayAccess::offsetUnset() method.
-     * 
-     * @param integer $offset Node position
-     * 
-     * @ignore
-     * @return void
-     */
-    public function offsetUnset($offset)
-    {
-        unset($this->_items[$offset]);
-    }
-    
-    /****************************
-     * Countable implementation *
-     ****************************/
-     
-     /**
-      * Gets the number of nodes.
-      * 
-      * This function implements the Countable::count() method.
-      * 
-      * @ignore
-      * @return integer
-      */
-    public function count()
-    {
-        return count($this->_items);
     }
 }

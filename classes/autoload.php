@@ -10,11 +10,11 @@
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-use com\soloproyectos\core\sys\file\SysFile;
-use com\soloproyectos\core\text\Text;
+use com\soloproyectos\common\sys\file\SysFileHelper;
+use com\soloproyectos\common\text\TextHelper;
 
-require_once __DIR__ . "/sys/file/sys-file.php";
-require_once __DIR__ . "/text/text.php";
+require_once __DIR__ . "/sys/file/sys-file-helper.php";
+require_once __DIR__ . "/text/text-helper.php";
 
 spl_autoload_register(
     function ($classname) {
@@ -25,13 +25,13 @@ spl_autoload_register(
             $items = $matches[0];
             foreach ($items as $item) {
                 $item = strtolower($item);
-                $d = SysFile::concat($dir, $item);
+                $d = SysFileHelper::concat($dir, $item);
                 if (is_dir($d)) {
                     $dir = $d;
                 }
-                $name = Text::concat("-", $name, $item);
+                $name = TextHelper::concat("-", $name, $item);
             }
-            $filename = SysFile::concat($dir, "$name.php");
+            $filename = SysFileHelper::concat($dir, "$name.php");
             
             if (!is_file($filename)) {
                 throw new Exception("Script not found: $filename");

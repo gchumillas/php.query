@@ -10,10 +10,10 @@
  * @license  https://raw2.github.com/soloproyectos/php.common-libs/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/php.common-libs
  */
-namespace com\soloproyectos\core\css\parser\combinator;
+namespace com\soloproyectos\common\css\parser\combinator;
 use DOMElement;
-use com\soloproyectos\core\css\parser\combinator\CssParserCombinator;
-use com\soloproyectos\core\xml\dom\XmlDomHelper;
+use com\soloproyectos\common\css\parser\combinator\CssParserCombinator;
+use com\soloproyectos\common\xml\dom\XmlDomHelper;
 
 /**
  * Class CssParserCombinatorDescendant.
@@ -28,7 +28,6 @@ use com\soloproyectos\core\xml\dom\XmlDomHelper;
  */
 class CssParserCombinatorDescendant extends CssParserCombinator
 {
-    
     /**
      * Gets the descendant nodes.
      * 

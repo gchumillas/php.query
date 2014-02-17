@@ -1,6 +1,6 @@
 <?php
 /**
- * This file contains the Text class.
+ * This file contains the TextHelper class.
  * 
  * PHP Version 5.3
  * 
@@ -10,10 +10,10 @@
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-namespace com\soloproyectos\core\text;
+namespace com\soloproyectos\common\text;
 
 /**
- * Class Text.
+ * Class TextHelper.
  * 
  * @category Text
  * @package  Text
@@ -21,21 +21,20 @@ namespace com\soloproyectos\core\text;
  * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
  * @link     https://github.com/soloproyectos/core
  */
-class Text
+class TextHelper
 {
-    
     /**
      * Is the string empty?
      * 
      * <p>This function checks if a given variable is an empty string.
      * For example:</p>
      * 
-     * <code>// empty string examples
-     * Text::isEmpty('');         // returns true
-     * Text::isEmpty(null);       // returns true
-     * Text::isEmpty('testing');  // returns false
-     * Text::isEmpty(0);          // returns false (as 0 is not a string)
-     * </code>
+     * <pre>// empty string examples
+     * TextHelper::isEmpty('');         // returns true
+     * TextHelper::isEmpty(null);       // returns true
+     * TextHelper::isEmpty('testing');  // returns false
+     * TextHelper::isEmpty(0);          // returns false (as 0 is not a string)
+     * </pre>
      * 
      * @param string $str A string
      * 
@@ -52,14 +51,14 @@ class Text
      * <p>This function concatenates several strings into a new one, using the
      * $glue parameter. It ignores empty strings. For example:</p>
      * 
-     * <code>
+     * <pre>
      * // prints 'John, Maria, Mohamad'
-     * echo Text::concat(', ', 'John', '', 'Maria', null, 'Mohamad');
+     * echo TextHelper::concat(', ', 'John', '', 'Maria', null, 'Mohamad');
      * // prints 'John'
-     * echo Text::concat(', ', 'John');
+     * echo TextHelper::concat(', ', 'John');
      * // in this case we are using an array as second argument
-     * echo Text::concat('|', array('one', 'two', 'three'));
-     * </code>
+     * echo TextHelper::concat('|', array('one', 'two', 'three'));
+     * </pre>
      * 
      * @param string $glue Separator
      * 
@@ -78,7 +77,7 @@ class Text
         }
 
         foreach ($args as $arg) {
-            if (Text::isempty($arg)) {
+            if (TextHelper::isempty($arg)) {
                 continue;
             }
             
@@ -145,7 +144,7 @@ class Text
         // removes left spaces
         for ($i = $i0; $i <= $i1; $i++) {
             $line = $lines[$i];
-            $ret = Text::concat("\n", $ret, substr($line, $spaces));
+            $ret = TextHelper::concat("\n", $ret, substr($line, $spaces));
         }
 
         return $ret;
