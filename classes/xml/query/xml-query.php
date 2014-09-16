@@ -253,6 +253,7 @@ class XmlQuery extends XmlQueryTransversable
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_HEADER, true);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 120);
         $contents = curl_exec($ch);
