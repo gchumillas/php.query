@@ -35,7 +35,7 @@ You can either create an instance from scratch or from a given source:
 
 ```PHP
 // creates an instance from scratch
-// the following code creates an `<item />` instance with the attributes `id` and `title`
+// the following code creates an `<item />` node with the attributes `id` and `title`
 $root = new DomNode("item", array("id" => 1, "title" => "Item 1"));
 
 // creates an instance from a string
@@ -53,10 +53,10 @@ $xml = DomNode::createFromElement($element);
 
 #### Using the `query` method
 
-Note that you can use the same `query` function to select a single node or multiple nodes. If you feel more comfortable with the XPath language, you can use the `xpath` method instead. That's your choise :)
+You can use the same `query` function to traverse either single or multiple nodes.
 
 ```PHP
-$xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
+$xml = DomNode::createFromString('<root><item id="101" /><item id="102" /><item id="103" /></root>');
 
 // selects and prints all items
 $items = $xml->query("item");
@@ -71,7 +71,7 @@ echo $item;
 
 #### Using the `attr`, `text` and `html` methods:
 ```PHP
-$xml = new phpQuery("test.xml");
+$xml = DomNode::createFromString(file_get_contents("test.xml"));
 
 // prints books info
 $books = $xml->query("books item");
@@ -97,7 +97,7 @@ echo $genres->html();
 In the previous example we used `attr`, `text` and `html` for getting contents. In this example we are use the same methods to change the document.
 
 ```PHP
-$xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
+$xml = DomNode::createFromString('<root><item id="101" /><item id="102" /><item id="103" /></root>');
 
 // changes or adds attributes and inner texts
 $item = $xml->query("item[id = 102]");
@@ -114,27 +114,22 @@ echo $item;
 
 #### Using `prepend` and `append` methods:
 
-You can use the `prepend` and `append` functions in two ways:
-
-1. `append(<xml segment>)`
-2. `append(<xml segment>, <optional list of attributes>, <optional inner texts>, <optional callback function>)`
-
 ```PHP
-$xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
+$xml = DomNode::createFromString('<root><item id="101" /><item id="102" /><item id="103" /></root>');
 
-// inserts a new child node at the end
+// appends contents
 $item = $xml->query("item[id = 102]");
 $item->append('<subitem id="102.1" title="Subitem title">Some text here ...</subitem>');
 echo $xml;
 
-// this is another way to insert a node
-$item->append("<subitem />", array("id" => "102.1", "title" => "Subitem title"), "Some text here ...");
+// appends a DomNode object
+$item->append(new DomNode("subitem", array("id" => "102.1", "title" => "Subitem title"), "Some text here ..."));
 echo $xml;
 
-// and this is another way
-$item->prepend('<subitem />', array("id" => "102.2", "title" => "Subitem title"), function ($subitem) {
-    $subitem->text("I'm the first child node ...");
-});
+// appends a DomNode object and calls the `callback` function
+$item->prepend(new DomNode('subitem', array("id" => "102.2", "title" => "Subitem title"), function (target) {
+    target->text("I'm the first child node ...");
+}));
 echo $xml;
 ```
 
