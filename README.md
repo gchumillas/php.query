@@ -28,7 +28,7 @@ Methods
   * `createFromString($string)`: creates an instance from a string
 
 #### Basic methods:
-  * `elements()`: gets internal DOM elements (*)
+  * `elements()`: gets internal DOM elements
   * `name()`: gets the node name
   * `parent()`: gets the parent node or a `null` value
   * `query(cssSelectors)`: finds nodes using CSS selectors
