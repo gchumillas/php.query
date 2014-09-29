@@ -65,9 +65,9 @@ $xml = DomNode::createFromDocument($doc);
 $xml = DomNode::createFromElement($element);
 ```
 
-#### Using the `query` method
+#### Use the `query` method
 
-You can use the same `query` function to traverse either single or multiple nodes.
+You can use the same `query` function to retrieve either single or multiple nodes.
 
 ```PHP
 $xml = DomNode::createFromString('<root><item id="101" /><item id="102" /><item id="103" /></root>');
@@ -83,7 +83,7 @@ $item = $xml->query("item[id = 102]");
 echo $item;
 ```
 
-#### Using the `attr`, `text` and `html` methods:
+#### Use the `attr`, `text` and `html` methods:
 ```PHP
 $xml = DomNode::createFromString(file_get_contents("test.xml"));
 
@@ -94,19 +94,19 @@ foreach ($books as $book) {
     echo "Author: " . $book->attr("author_id") . "\n";
     echo "ISBN: " . $book->query("isbn")->text() . "\n";
     echo "Available: " . $book->query("available")->text() . "\n";
-    echo "Description: " . trim($book->query("description")->text()) . "\n";
+    echo "Description: " . $book->query("description")->text() . "\n";
     echo "---\n";
 }
 
 // gets the number of items
 echo "Number of items: " . count($books);
 
-// prints the node contents
+// prints inner XML text
 $genres = $xml->query("genres");
 echo $genres->html();
 ```
 
-#### Using the `attr`, `text` and `html` methods to change nodes:
+#### Use the `attr`, `text` and `html` methods to change contents:
 
 In the previous example we used `attr`, `text` and `html` for getting contents. In this example we are use the same methods to change the document.
 
@@ -126,23 +126,23 @@ $item->html('<subitem>I am a subitem</subitem>');
 echo $item;
 ```
 
-#### Using `prepend` and `append` methods:
+#### Use `prepend` and `append` methods:
 
 ```PHP
 $xml = DomNode::createFromString('<root><item id="101" /><item id="102" /><item id="103" /></root>');
 
 // appends contents
 $item = $xml->query("item[id = 102]");
-$item->append('<subitem id="102.1" title="Subitem title">Some text here ...</subitem>');
+$item->append('<subitem id="102.1" title="Subitem title">This text goes to the end...</subitem>');
 echo $xml;
 
 // appends a DomNode object
-$item->append(new DomNode("subitem", array("id" => "102.1", "title" => "Subitem title"), "Some text here ..."));
+$item->append(new DomNode("subitem", array("id" => "102.1", "title" => "Subitem title"), "Some inner text here ..."));
 echo $xml;
 
 // appends a DomNode object and calls the `callback` function
-$item->prepend(new DomNode('subitem', array("id" => "102.2", "title" => "Subitem title"), function (target) {
-    target->text("I'm the first child node ...");
+$item->prepend(new DomNode("subitem", array("id" => "102.2", "title" => "Subitem title"), function ($target) {
+    $target->text("I'm the first child node ...");
 }));
 echo $xml;
 ```
