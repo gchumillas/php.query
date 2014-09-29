@@ -33,7 +33,6 @@ echo $item;
 
 Create a complex node:
 ```PHP
-// creates a complex node
 // in this case we use a callback function to add complex structures into the node
 $root = new DomNode("root", function ($target) {
     // adds three subnodes
@@ -50,13 +49,9 @@ $root = new DomNode("root", function ($target) {
 echo $root;
 ```
 
-#### Create an instance from a given source
+#### Create an instance from a given source:
 
 ```PHP
-// creates an instance from scratch
-// the following code creates an `<item />` node with the attributes `id` and `title`
-$root = new DomNode("item", array("id" => 1, "title" => "Item 1"));
-
 // creates an instance from a string
 $xml = DomNode::createFromString('<root><item id="101" /><item id="102" /><item id="103" /></root>');
 
