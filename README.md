@@ -1,7 +1,7 @@
 phpQuery
 ========
 
-A library to parse and manipulate documents in an easy and intuitive way.
+A library for manipulating and traversing XML documents in an easy and intuitive way. This library is inspired by the jQuery library and borrows some interesting ideas, like chaining.
 
 Installation
 ------------
