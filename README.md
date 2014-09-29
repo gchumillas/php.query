@@ -22,9 +22,35 @@ And that's all. You are ready to use this library.
 Basic Examples
 --------------
 
-#### Creating instances:
+#### Create an instance
 
-You can either create an instance from scratch or from a given source:
+Create a simple node:
+```PHP
+// creates a simple node with two attributes and inner text
+$item = new DomNode("item", array("id" => 101, "title" => "Title 101"), "Inner text here...");
+echo $item;
+```
+
+Create a complex node:
+```PHP
+// creates a complex node
+// in this case we use a callback function to add complex structures into the node
+$root = new DomNode("root", function ($target) {
+    // adds three subnodes
+    for ($i = 0; $i < 3; $i++) {
+        $target->append(new DomNode("item", array("id" => $i, "title" => "Title $i"), "This is the item $i"));
+    }
+    
+    // appends some XML code
+    $target->append("<text>This text is added to the end.</text>");
+    
+    // prepends some XML code
+    $target->prepend("<text>This text is added to the beginning</text>");
+});
+echo $root;
+```
+
+#### Create an instance from a given source
 
 ```PHP
 // creates an instance from scratch
