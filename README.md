@@ -6,7 +6,7 @@ A library to parse and manipulate documents in an easy and intuitive way.
 Installation
 ------------
 
-Copy and paste the `classes` directory in your preferred location (optionally, rename it) and copy the following code:
+Copy and paste the `classes` directory in your preferred location (optionally rename it) and copy the following code:
 
 ```PHP
 require_once "<your-preferred-location>/classes/autoload.php";
@@ -20,13 +20,13 @@ Basic Examples
 
 The most important methods are:
 
-1. `query(<css selectors>)` or `xpath(<xpath expression>)` for getting nodes from a document
-2. `attr(<attribute name>, <optional value>)` for getting or setings attribute values
-3. `text(<optional text>)` for getting or settings node texts
-4. `html(<optional contents>)` for getting or settings the inner contents
-5. `prepend(<new node>)` and `append(<new node>)` for inserting nodes
-6. `remove()` for removing a specific node
-7. `clear()` for removing all child nodes of a given node
+1. `query(<css selectors>)` or `xpath(<xpath expression>)`: finds nodes
+2. `attr(<attribute name>, <optional value>)`: gets or sets attributes
+3. `text(<optional text>)`: gets or sets inner texts
+4. `html(<optional contents>)`: gets or sets inner XML code
+5. `prepend(<string>)` and `append(<string>)`: prepends and appends contents
+6. `remove()`: removes the node from the document
+7. `clear()`: removes all child nodes
 
 
 #### Creating instances:
@@ -34,23 +34,21 @@ The most important methods are:
 You can create instances from different sources.
 
 ```PHP
-// loads an XML document from a string
-$xml = new phpQuery('<root><item id="101" /><item id="102" /><item id="103" /></root>');
+// creates an instance from a string
+$xml = DomNode::createFromString('<root><item id="101" /><item id="102" /><item id="103" /></root>');
 
-// loads an HTML document from a url
-$xml = new phpQuery('http://www.php.net');
-
-// loads an XML document from a file
-$xml = new phpQuery('/home/username/my-file.xml');
-
-// loads an XML document from a specific DOMDocument object
+// creates an instance from a document
 $doc = new DOMDocument("1.0", "UTF-8");
 $doc->loadXML('<root><item id="101" /><item id="102" /><item id="103" /></root>');
-$xml = new phpQuery($doc);
+$xml = DomNode::createFromDocument($doc);
 
-// loads an XML document from a specif DOMNode object
-// $domNode can be any DOMNode object and represents the `root` node
-$xml = new phpQuery($domNode);
+// creates an instance from a given DOMElement
+// $element is a DOMElement object
+$xml = DomNode::createFromElement($element);
+
+// creates an instance from scratch
+// the following code creates an `<item />` instance with the attributes `id` and `title`
+$root = new DomNode("item", array("id" => 1, "title" => "Item 1"));
 ```
 
 #### Using the `query` method
