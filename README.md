@@ -22,10 +22,37 @@ And that's all. You are ready to use this library.
 Methods
 -------
 
-#### Create nodes from a given source
+#### Create nodes from a given source:
   * `createFromDocument($doc)`: creates an instance from a Document object
   * `createFromElement($element)`: creates an instance from a DOMElement object
   * `createFromString($string)`: creates an instance from a string
+
+#### Basic methods:
+  * `elements()`: gets internal DOM elements (*)
+  * `name()`: gets the node name
+  * `parent()`: gets the parent node or a `null` value
+  * `query(cssSelectors)`: finds nodes using CSS selectors
+  * `xpath(expression)`: finds nodes using XPath expressions
+  * `remove()`: removes the node from the document
+  * `data($name, [$value])`: gets or sets arbitrary data
+  * `append($string)`: appends inner XML text
+  * `prepend($string)`: prepends inner XML text
+  * `clear()`: removes all child nodes
+  * `html([$string])`: gets or sets inner XML text
+  * `text([$string])`: gets or sets inner text
+
+#### Attributes:
+  * `attr($name, [$value])`: gets or sets an attribute
+  * `hasAttr($name)`: checks if a node has an attribute
+
+#### CSS Attributes:
+  * `css($name, [$value])`: gets or sets a CSS attribute
+  * `hasCss($name)`: checks if a node has a CSS attribute
+
+#### Classes:
+  * `addClass($className)`: adds a class to the node
+  * `hasClass($className)`: checks if a node has a class
+  * `removeClass($className)`: removes a class from the node
 
 Basic Examples
 --------------
