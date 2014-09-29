@@ -11,10 +11,10 @@
  * @link     https://github.com/soloproyectos/php.common-libs
  */
 namespace com\soloproyectos\common\css\parser\model;
-use DOMElement;
-use DOMNode;
+use \DOMElement;
+use \DOMNode;
 use com\soloproyectos\common\css\parser\model\CssParserModelFactor;
-use com\soloproyectos\common\xml\dom\XmlDomHelper;
+use com\soloproyectos\common\dom\DomHelper;
 
 /**
  * Class CssParserModelSelector.
@@ -82,7 +82,7 @@ class CssParserModelSelector
         $ret = array();
         foreach ($nodes as $node) {
             $items = $factor->filter($node);
-            $ret = XmlDomHelper::mergeNodes($ret, $items);
+            $ret = DomHelper::mergeNodes($ret, $items);
         }
         return $ret;
     }

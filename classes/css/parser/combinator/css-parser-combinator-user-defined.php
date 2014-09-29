@@ -11,8 +11,8 @@
  * @link     https://github.com/soloproyectos/php.common-libs
  */
 namespace com\soloproyectos\common\css\parser\combinator;
-use Closure;
-use DOMElement;
+use \Closure;
+use \DOMElement;
 use com\soloproyectos\common\css\parser\exception\CssParserException;
 use com\soloproyectos\common\css\parser\combinator\CssParserCombinator;
 

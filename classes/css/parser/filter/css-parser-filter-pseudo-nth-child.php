@@ -11,9 +11,9 @@
  * @link     https://github.com/soloproyectos/php.common-libs
  */
 namespace com\soloproyectos\common\css\parser\filter;
-use DOMElement;
+use \DOMElement;
 use com\soloproyectos\common\css\parser\filter\CssParserFilterPseudo;
-use com\soloproyectos\common\xml\dom\XmlDomHelper;
+use com\soloproyectos\common\dom\DomHelper;
 
 /**
  * Class CssParserFilterPseudoNthChild.
@@ -57,7 +57,7 @@ class CssParserFilterPseudoNthChild extends CssParserFilterPseudo
     {
         $i = 1;
         
-        while ($node = XmlDomHelper::getPreviousSiblingElement($node)) {
+        while ($node = DomHelper::getPreviousSiblingElement($node)) {
             $i++;
             if ($i > $this->_position) {
                 return false;

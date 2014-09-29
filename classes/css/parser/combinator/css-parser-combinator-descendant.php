@@ -11,9 +11,9 @@
  * @link     https://github.com/soloproyectos/php.common-libs
  */
 namespace com\soloproyectos\common\css\parser\combinator;
-use DOMElement;
+use \DOMElement;
 use com\soloproyectos\common\css\parser\combinator\CssParserCombinator;
-use com\soloproyectos\common\xml\dom\XmlDomHelper;
+use com\soloproyectos\common\dom\DomHelper;
 
 /**
  * Class CssParserCombinatorDescendant.
@@ -38,6 +38,6 @@ class CssParserCombinatorDescendant extends CssParserCombinator
      */
     public function filter($node, $tagname)
     {
-        return XmlDomHelper::getElementsByTagName($node, $tagname);
+        return DomHelper::getElementsByTagName($node, $tagname);
     }
 }

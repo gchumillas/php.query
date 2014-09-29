@@ -11,11 +11,11 @@
  * @link     https://github.com/soloproyectos/php.common-libs
  */
 namespace com\soloproyectos\common\css\parser;
-use ArrayObject;
-use Closure;
-use DOMDocument;
-use DOMElement;
-use DOMNode;
+use \ArrayObject;
+use \Closure;
+use \DOMDocument;
+use \DOMElement;
+use \DOMNode;
 use com\soloproyectos\common\arr\ArrHelper;
 use com\soloproyectos\common\css\parser\combinator\CssParserCombinator;
 use com\soloproyectos\common\css\parser\combinator\CssParserCombinatorFactory;
@@ -28,9 +28,9 @@ use com\soloproyectos\common\css\parser\filter\CssParserFilterPseudoFactory;
 use com\soloproyectos\common\css\parser\model\CssParserModelElement;
 use com\soloproyectos\common\css\parser\model\CssParserModelFactor;
 use com\soloproyectos\common\css\parser\model\CssParserModelSelector;
+use com\soloproyectos\common\dom\DomHelper;
 use com\soloproyectos\common\text\parser\exception\TextParserException;
 use com\soloproyectos\common\text\parser\TextParser;
-use com\soloproyectos\common\xml\dom\XmlDomHelper;
  
 /**
  * Class CssParser.
@@ -195,7 +195,7 @@ class CssParser extends TextParser
      * // selects the first and the odd elements and prints them
      * $items = $selector->query('item:odd, item:first-child');
      * foreach ($items as $item) {
-     *      echo XmlDomHelper::dom2str($item) . "\n";
+     *      echo DomHelper::dom2str($item) . "\n";
      * }
      * </pre>
      * 
@@ -290,9 +290,9 @@ class CssParser extends TextParser
      * // DOMElement objects.
      * $selector->registerCombinator("&", function ($node, $tagname) {
      *     $ret = array();
-     *     $items = XmlDomHelper::getElementsByTagName($node, $tagname);
+     *     $items = DomHelper::getElementsByTagName($node, $tagname);
      *     foreach ($items as $item) {
-     *         $childs = XmlDomHelper::getChildElements($item);
+     *         $childs = DomHelper::getChildElements($item);
      *         if (count($childs) == 0) {
      *             array_push($ret, $item);
      *         }
@@ -333,7 +333,7 @@ class CssParser extends TextParser
      */
     public function dom2str($node)
     {
-        return XmlDomHelper::dom2str($node);
+        return DomHelper::dom2str($node);
     }
     
     /**
@@ -669,7 +669,7 @@ class CssParser extends TextParser
                 // throw new TextParserException("Invalid expression", $this);
                 break;
             }
-            $nodes = XmlDomHelper::mergeNodes(
+            $nodes = DomHelper::mergeNodes(
                 $nodes,
                 $selector->filter($this->_node)
             );

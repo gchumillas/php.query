@@ -11,10 +11,10 @@
  * @link     https://github.com/soloproyectos/php.common-libs
  */
 namespace com\soloproyectos\common\css\parser\filter;
-use ArrayObject;
-use DOMElement;
+use \ArrayObject;
+use \DOMElement;
 use com\soloproyectos\common\css\parser\filter\CssParserFilterPseudo;
-use com\soloproyectos\common\xml\dom\XmlDomHelper;
+use com\soloproyectos\common\dom\DomHelper;
 
 /**
  * Class CssParserFilterPseudoNot.
@@ -56,6 +56,6 @@ class CssParserFilterPseudoNot extends CssParserFilterPseudo
      */
     public function match($node, $position, $items)
     {
-        return XmlDomHelper::searchNode($node, $this->_items) === false;
+        return DomHelper::searchNode($node, $this->_items) === false;
     }
 }

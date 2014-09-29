@@ -11,7 +11,7 @@
  * @link     https://github.com/soloproyectos/php.common-libs
  */
 namespace com\soloproyectos\common\css\parser\model;
-use DOMElement;
+use \DOMElement;
 use com\soloproyectos\common\css\parser\filter\CssParserFilter;
 
 /**
