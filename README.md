@@ -19,6 +19,12 @@ use com\soloproyectos\common\dom\DomNode;
 
 And that's all. You are ready to use this library.
 
+Methods
+-------
+
+  * createFromDocument($doc): creates an instance from a Document object
+  * createFromElement($element): creates an instance from a DOMElement object
+
 Basic Examples
 --------------
 
