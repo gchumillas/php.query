@@ -1,23 +1,19 @@
 phpQuery
 ========
 
-The phpQuery class is inspired by the glorified [jQuery](http://jquery.com/) library. The purpose of this class is to simplify the access and manipulation of XML documents. It represents, in most cases, a replacement of the built-in DOM library.
-
-Instead of the XPath query language, this class uses CSS selectors. This is an advantage for those who are not familiar with XPath . In any case, it is still possible to use XPath: just use the 'xpath' method instead of 'query'.
-
-Another added advantage is that we no longer need to handle different classes as DOMNode, DOMElement, DOMNodeList, etc ... In our case, all nodes are represented by the same class: phpQuery, which simplifies the code.
+A library to parse and manipulate documents in an easy and intuitive way.
 
 Installation
 ------------
 
-Copy and paste the `classes` folder into your application and include the file 'classes/php-query.php'. That is:
+Copy and paste the `classes` directory in your preferred location (optionally, rename it) and copy the following code:
 
 ```PHP
-use com\soloproyectos\core\xml\phpQuery;
-require_once "classes/php-query.php";
+require_once "<your-preferred-location>/classes/autoload.php";
+use com\soloproyectos\common\dom\DomNode;
 ```
 
-And that's all. You are ready to use the phpQuery class.
+And that's all. You are ready to use this library.
 
 Basic Examples
 --------------
