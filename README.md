@@ -6,15 +6,14 @@ A library for manipulating and traversing XML documents in an easy and intuitive
 Installation
 ------------
 
-Download the repository:
+Download the project:
 ```bash
 git clone https://github.com/soloproyectos/phpquery
 ```
 
-And copy the `classes` folder in your preferred location (optionally, rename it). Finally, copy and paste the following PHP code:
-
+and copy the `classes` folder in your preferred location (optionally, rename it). Finally, copy and paste the following PHP code:
 ```PHP
-require_once "< your preferred location >/classes/autoload.php";
+require_once "< YOUR PREFERRED LOCATION >/classes/autoload.php";
 use com\soloproyectos\common\dom\DomNode;
 ```
 
