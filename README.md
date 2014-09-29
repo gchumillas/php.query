@@ -22,8 +22,10 @@ And that's all. You are ready to use this library.
 Methods
 -------
 
-  * createFromDocument($doc): creates an instance from a Document object
-  * createFromElement($element): creates an instance from a DOMElement object
+#### Create nodes from a given source
+  * `createFromDocument($doc)`: creates an instance from a Document object
+  * `createFromElement($element)`: creates an instance from a DOMElement object
+  * `createFromString($string)`: creates an instance from a string
 
 Basic Examples
 --------------
