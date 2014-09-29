@@ -22,17 +22,6 @@ And that's all. You are ready to use this library.
 Basic Examples
 --------------
 
-The most important methods are:
-
-1. `query(<css selectors>)` or `xpath(<xpath expression>)`: finds nodes
-2. `attr(<attribute name>, <optional value>)`: gets or sets attributes
-3. `text(<optional text>)`: gets or sets inner texts
-4. `html(<optional contents>)`: gets or sets inner XML code
-5. `prepend(<string>)` and `append(<string>)`: prepends and appends contents
-6. `remove()`: removes the node from the document
-7. `clear()`: removes all child nodes
-
-
 #### Creating instances:
 
 You can either create an instance from scratch or from a given source:
