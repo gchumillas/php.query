@@ -31,9 +31,13 @@ The most important methods are:
 
 #### Creating instances:
 
-You can create instances from different sources.
+You can either create an instance from scratch or from a given source:
 
 ```PHP
+// creates an instance from scratch
+// the following code creates an `<item />` instance with the attributes `id` and `title`
+$root = new DomNode("item", array("id" => 1, "title" => "Item 1"));
+
 // creates an instance from a string
 $xml = DomNode::createFromString('<root><item id="101" /><item id="102" /><item id="103" /></root>');
 
@@ -45,10 +49,6 @@ $xml = DomNode::createFromDocument($doc);
 // creates an instance from a given DOMElement
 // $element is a DOMElement object
 $xml = DomNode::createFromElement($element);
-
-// creates an instance from scratch
-// the following code creates an `<item />` instance with the attributes `id` and `title`
-$root = new DomNode("item", array("id" => 1, "title" => "Item 1"));
 ```
 
 #### Using the `query` method
