@@ -45,7 +45,7 @@ Methods
   * `attr($name, [$value])`: gets or sets an attribute
   * `hasAttr($name)`: checks if a node has an attribute
 
-#### CSS Attributes:
+#### CSS attributes:
   * `css($name, [$value])`: gets or sets a CSS attribute
   * `hasCss($name)`: checks if a node has a CSS attribute
 
