@@ -57,7 +57,7 @@ Methods
 Basic Examples
 --------------
 
-#### Create an instance
+#### Create instances
 
 Create a simple node:
 ```PHP
@@ -84,7 +84,7 @@ $root = new DomNode("root", function ($target) {
 echo $root;
 ```
 
-#### Create an instance from a given source:
+#### Create instances from a given source:
 
 ```PHP
 // creates an instance from a string
