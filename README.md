@@ -31,8 +31,8 @@ Methods
   * `elements()`: gets internal DOM elements
   * `name()`: gets the node name
   * `parent()`: gets the parent node or a `null` value
-  * `query(cssSelectors)`: finds nodes using CSS selectors
-  * `xpath(expression)`: finds nodes using XPath expressions
+  * `query($cssSelectors)`: finds nodes using CSS selectors
+  * `xpath($expression)`: finds nodes using XPath expressions
   * `remove()`: removes the node from the document
   * `data($name, [$value])`: gets or sets arbitrary data
   * `append($string)`: appends inner XML text
