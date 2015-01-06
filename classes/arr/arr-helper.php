@@ -1,14 +1,10 @@
 <?php
 /**
- * This file contains the ArrHelper class.
- * 
- * PHP Version 5.3
- * 
- * @category Tools_And_Utilities
- * @package  Arr
- * @author   Gonzalo Chumillas <gonzalo@soloproyectos.com>
- * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
- * @link     https://github.com/soloproyectos/core
+ * This file is part of Soloproyectos common library.
+ *
+ * @author  Gonzalo Chumillas <gchumillas@email.com>
+ * @license https://github.com/soloproyectos/php.common-libs/blob/master/LICENSE BSD 2-Clause License
+ * @link    https://github.com/soloproyectos/php.common-libs
  */
 namespace com\soloproyectos\common\arr;
 use com\soloproyectos\common\arr\arguments\ArrArguments;
@@ -16,62 +12,61 @@ use com\soloproyectos\common\arr\arguments\ArrArgumentsDescriptor;
 
 /**
  * Class ArrHelper.
- * 
- * @category Tools_And_Utilities
- * @package  Arr
- * @author   Gonzalo Chumillas <gonzalo@soloproyectos.com>
- * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
- * @link     https://github.com/soloproyectos/core
+ *
+ * @package Arr
+ * @author  Gonzalo Chumillas <gchumillas@email.com>
+ * @license https://github.com/soloproyectos/php.common-libs/blob/master/LICENSE BSD 2-Clause License
+ * @link    https://github.com/soloproyectos/php.common-libs
  */
 class ArrHelper
 {
     /**
      * Gets an attribute from a given array.
-     * 
+     *
      * @param array  $arr     Array object
      * @param string $name    Attribute name
      * @param mixed  $default Default value (default is null)
-     * 
+     *
      * @return mixed
      */
     public static function get($arr, $name, $default = null)
     {
         return array_key_exists($name, $arr)? $arr[$name] : $default;
     }
-    
+
     /**
      * Sets an attribute.
-     * 
+     *
      * @param array  $arr   Array object (passed by reference)
      * @param string $name  Attribute name
      * @param mixed  $value Value
-     * 
+     *
      * @return void
      */
     public static function set(&$arr, $name, $value)
     {
         $arr[$name] = $value;
     }
-    
+
     /**
      * Does the attribute exist?
-     * 
+     *
      * @param array  $arr  Array object
      * @param string $name Attribute name
-     * 
+     *
      * @return boolean
      */
     public static function is($arr, $name)
     {
         return array_key_exists($name, $arr);
     }
-    
+
     /**
      * Deletes an attribute.
-     * 
+     *
      * @param array  $arr  Array object (passed by reference)
      * @param string $name Attribute name
-     * 
+     *
      * @return void
      */
     public static function del(&$arr, $name)
@@ -80,53 +75,54 @@ class ArrHelper
             unset($arr[$name]);
         }
     }
-    
+
     /**
      * Appends or prepends an object into an array.
-     * 
+     *
      * @param array   $arr     Array object (passed by reference)
      * @param mixed   $obj     Object
      * @param boolean $prepend Inserts at the beginning (default is false)
-     * 
+     *
      * @return array
      */
-    public function add(&$arr, $obj, $prepend = false)
+    public static function add(&$arr, $obj, $prepend = false)
     {
         if ($prepend) {
             array_unshift($arr, $obj);
         } else {
             array_push($arr, $obj);
         }
-        
+
         return $arr;
     }
-    
+
     /**
-     * Fetches the elements of an array that matches a given list of descriptors.
-     * 
-     * <p>This function is especially suitable for getting optional arguments.
-     * In the below example, 'title' is the only required argument. The
-     * arguments 'message', 'x' and 'y' are not required and have default values.
-     * The argument 'options' is not required and the default value is null. Note
-     * that the arguments 'x' and 'y' can be either strings or numbers. Available
-     * types are: '*' or 'mixed', 'number' or 'numeric', 'bool' or 'boolean',
-     * 'string', 'array', 'objetc', 'resource', 'function'.</p>
-     * <pre>
+     * Fetches elements from an array.
+     *
+     * This function is especially suitable for getting optional arguments.
+     *
+     * For example:
+     * ```php
      * function test($title, $message, $x, $y, $options) {
      *      $args = ArrHelper::fetch(func_get_args(), array(
+     *          // `title` is a required string
      *          "title" => "string",
+     *          // `message` is an optional string and has a default value
      *          "message" => array(
      *              "type" => "string",
      *              "default" => "Default message ..."
      *          ),
+     *          // `x` is an optional string or number and has a default value
      *          "x" => array(
      *              "type" => "string|number",
      *              "default" => 0
      *          ),
+     *          // `y` is an optional string or number and has a default value
      *          "y" => array(
      *              "type" => "string|number",
      *              "default" => 0
      *          ),
+     *          // `options` is an optional array
      *          "options" => array(
      *              "type"  => "array",
      *              required => false
@@ -136,13 +132,13 @@ class ArrHelper
      * }
      * // this throws an InvalidArgumentException, as 'title' is required.
      * test(120, 250);
-     * </pre>
-     * 
+     * ```
+     *
      * @param array $arr         Array of mixed elements
      * @param array $descriptors Associative array of descriptors.
-     * 
-     * @return array
+     *
      * @throws InvalidArgumentException
+     * @return array
      */
     public static function fetch($arr, $descriptors)
     {
@@ -152,7 +148,7 @@ class ArrHelper
             $types = array();
             $default = null;
             $required = false;
-            
+
             if (is_string($descriptor)) {
                 $types = explode("|", $descriptor);
             } elseif (is_array($descriptor)) {
@@ -162,7 +158,7 @@ class ArrHelper
                     $descriptor, "required", !ArrHelper::is($descriptor, "default")
                 );
             }
-            
+
             $desc = new ArrArgumentsDescriptor($types, $default, $required);
             $args->registerDescriptor($name, $desc);
         }

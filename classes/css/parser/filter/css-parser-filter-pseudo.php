@@ -1,30 +1,25 @@
 <?php
 /**
- * This file contains the CssParserFilterPseudo class.
- * 
- * PHP Version 5.3
- * 
- * @category Css
- * @package  CssParser
- * @author   Gonzalo Chumillas <gonzalo@soloproyectos.com>
- * @license  https://raw2.github.com/soloproyectos/php.common-libs/master/LICENSE BSD 2-Clause License
- * @link     https://github.com/soloproyectos/php.common-libs
+ * This file is part of Soloproyectos common library.
+ *
+ * @author  Gonzalo Chumillas <gchumillas@email.com>
+ * @license https://github.com/soloproyectos/php.common-libs/blob/master/LICENSE BSD 2-Clause License
+ * @link    https://github.com/soloproyectos/php.common-libs
  */
 namespace com\soloproyectos\common\css\parser\filter;
 use com\soloproyectos\common\css\parser\filter\CssParserFilter;
 
 /**
  * Class CssParserFilterPseudo.
- * 
+ *
  * This class represents a pseudo filter in a CSS expression.
- * 
- * @category Css
- * @package  CssParser
- * @author   Gonzalo Chumillas <gonzalo@soloproyectos.com>
- * @license  https://raw2.github.com/soloproyectos/php.common-libs/master/LICENSE BSD 2-Clause License
- * @link     https://github.com/soloproyectos/php.common-libs
+ *
+ * @package Css\Parser\Filter
+ * @author  Gonzalo Chumillas <gchumillas@email.com>
+ * @license https://github.com/soloproyectos/php.common-libs/blob/master/LICENSE BSD 2-Clause License
+ * @link    https://github.com/soloproyectos/php.common-libs
  */
 abstract class CssParserFilterPseudo extends CssParserFilter
 {
-    
+
 }

@@ -1,67 +1,78 @@
 <?php
 /**
- * This file contains the TextHelper class.
- * 
- * PHP Version 5.3
- * 
- * @category Text
- * @package  Text
- * @author   Gonzalo Chumillas <gonzalo@soloproyectos.com>
- * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
- * @link     https://github.com/soloproyectos/core
+ * This file is part of Soloproyectos common library.
+ *
+ * @author  Gonzalo Chumillas <gchumillas@email.com>
+ * @license https://github.com/soloproyectos/php.common-libs/blob/master/LICENSE BSD 2-Clause License
+ * @link    https://github.com/soloproyectos/php.common-libs
  */
 namespace com\soloproyectos\common\text;
+use com\soloproyectos\common\text\exception\TextException;
 
 /**
  * Class TextHelper.
- * 
- * @category Text
- * @package  Text
- * @author   Gonzalo Chumillas <gonzalo@soloproyectos.com>
- * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
- * @link     https://github.com/soloproyectos/core
+ *
+ * @package Text
+ * @author  Gonzalo Chumillas <gchumillas@email.com>
+ * @license https://github.com/soloproyectos/php.common-libs/blob/master/LICENSE BSD 2-Clause License
+ * @link    https://github.com/soloproyectos/php.common-libs
  */
 class TextHelper
 {
     /**
      * Is the string empty?
-     * 
-     * <p>This function checks if a given variable is an empty string.
-     * For example:</p>
-     * 
-     * <pre>// empty string examples
+     *
+     * This function checks if a given variable is an empty string.
+     *
+     * For example:
+     * ```php
+     * // empty string examples
      * TextHelper::isEmpty('');         // returns true
      * TextHelper::isEmpty(null);       // returns true
      * TextHelper::isEmpty('testing');  // returns false
      * TextHelper::isEmpty(0);          // returns false (as 0 is not a string)
-     * </pre>
-     * 
+     * ```
+     *
      * @param string $str A string
-     * 
+     *
      * @return boolean
      */
     public static function isEmpty($str)
     {
         return $str === null || is_string($str) && strlen($str) == 0;
     }
-    
+
+    /**
+     * Returns $def if $str is empty.
+     *
+     * @param string $str A string
+     * @param mixed  $def Default value
+     *
+     * @return mixed
+     */
+    public static function ifEmpty($str, $def)
+    {
+        return TextHelper::isEmpty($str)? $def : $str;
+    }
+
     /**
      * Concatenates strings.
-     * 
-     * <p>This function concatenates several strings into a new one, using the
-     * $glue parameter. It ignores empty strings. For example:</p>
-     * 
-     * <pre>
+     *
+     * This function concatenates several strings into a new one, using the
+     * $glue parameter. It ignores empty strings.
+     *
+     * For example:
+     * ```php
      * // prints 'John, Maria, Mohamad'
      * echo TextHelper::concat(', ', 'John', '', 'Maria', null, 'Mohamad');
      * // prints 'John'
      * echo TextHelper::concat(', ', 'John');
      * // in this case we are using an array as second argument
      * echo TextHelper::concat('|', array('one', 'two', 'three'));
-     * </pre>
-     * 
+     * ```
+     *
      * @param string $glue Separator
-     * 
+     *
      * @return string
      */
     public static function concat($glue)
@@ -69,7 +80,7 @@ class TextHelper
         $ret = "";
         $args = array();
         $len = func_num_args();
-        
+
         for ($i = 1; $i < $len; $i++) {
             $value = func_get_arg($i);
             $values = is_array($value)? array_values($value) : array($value);
@@ -80,26 +91,90 @@ class TextHelper
             if (TextHelper::isempty($arg)) {
                 continue;
             }
-            
+
             if (strlen($ret) > 0) {
                 $ret .= $glue;
             }
-            
+
             $ret .= $arg;
         }
 
         return $ret;
     }
-    
+
+    /**
+     * Replaces arguments in a string.
+     *
+     * Example 1:
+     * ```php
+     * echo TextHelper::replaceArgs(
+     *      "Hello {name}, how are you? I'm {state} thanks\n", array("Antonio", "fine")
+     * );
+     * ```
+     *
+     * Example 2: use a function name
+     * ```php
+     * echo TextHelper::replaceArgs(
+     *      "Hello {name}, how are you? I'm {state} thanks\n", array("  Antonio  ", "  fine  "), "trim"
+     * );
+     * ```
+     *
+     * Example 3: use a closure
+     * ```php
+     * echo TextHelper::replaceArgs(
+     *      "Hello {name}, how are you? I'm {state} thanks\n", array("Antonio", "fine"), function ($x) {
+     *          return "'$x'";
+     *      }
+     * );
+     * ```
+     *
+     * Example 3: use a method
+     * ```php
+     * echo TextHelper::replaceArgs(
+     *      "Hello {name}, how are you? I'm {state} thanks\n",
+     *      array("Antonio", "fine"),
+     *      array($obj, "method")
+     * );
+     * ```
+     *
+     * @param string   $str        String
+     * @param array    $args       Parameters
+     * @param callable $escapeFunc Escape function (not required)
+     *
+     * @return string
+     */
+    public static function replaceArgs($str, $args, $escapeFunc = null)
+    {
+        if ($escapeFunc === null) {
+            $escapeFunc = function ($x) {
+                return $x;
+            };
+        }
+
+        if (!is_callable($escapeFunc)) {
+            throw new TextException("Escape function is not callable");
+        }
+
+        return preg_replace_callback(
+            '/(^|[^\\\]){\w+}/',
+            function ($match) use (&$args, $escapeFunc) {
+                return $match[1] . call_user_func(
+                    $escapeFunc, (count($args) > 0? array_shift($args) : $match[0])
+                );
+            },
+            $str
+        );
+    }
+
     /**
      * Removes left spaces from a multiline string.
-     * 
-     * This function removes left spaces from a multiline string, so the first line
+     *
+     * <p>This function removes left spaces from a multiline string, so the first line
      * starts at the first column. It would be the equivalent to 'align to left' in
-     * a text editor.
-     * 
+     * a text editor.</p>
+     *
      * @param string $str Multiline string
-     * 
+     *
      * @return string
      */
     public static function trimText($str)

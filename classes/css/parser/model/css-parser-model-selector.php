@@ -1,14 +1,10 @@
 <?php
 /**
- * This file contains the CssParserModelSelector class.
- * 
- * PHP Version 5.3
- * 
- * @category Css
- * @package  CssParser
- * @author   Gonzalo Chumillas <gonzalo@soloproyectos.com>
- * @license  https://raw2.github.com/soloproyectos/php.common-libs/master/LICENSE BSD 2-Clause License
- * @link     https://github.com/soloproyectos/php.common-libs
+ * This file is part of Soloproyectos common library.
+ *
+ * @author  Gonzalo Chumillas <gchumillas@email.com>
+ * @license https://github.com/soloproyectos/php.common-libs/blob/master/LICENSE BSD 2-Clause License
+ * @link    https://github.com/soloproyectos/php.common-libs
  */
 namespace com\soloproyectos\common\css\parser\model;
 use \DOMElement;
@@ -18,14 +14,13 @@ use com\soloproyectos\common\dom\DomHelper;
 
 /**
  * Class CssParserModelSelector.
- * 
+ *
  * This class represents a term in a CSS expression.
- * 
- * @category Css
- * @package  CssParser
- * @author   Gonzalo Chumillas <gonzalo@soloproyectos.com>
- * @license  https://raw2.github.com/soloproyectos/php.common-libs/master/LICENSE BSD 2-Clause License
- * @link     https://github.com/soloproyectos/php.common-libs
+ *
+ * @package Css\Parser\Model
+ * @author  Gonzalo Chumillas <gchumillas@email.com>
+ * @license https://github.com/soloproyectos/php.common-libs/blob/master/LICENSE BSD 2-Clause License
+ * @link    https://github.com/soloproyectos/php.common-libs
  */
 class CssParserModelSelector
 {
@@ -34,28 +29,28 @@ class CssParserModelSelector
      * @var array of CssParserModelFactor objects
      */
     private $_factors = array();
-    
+
     /**
      * Adds a factor.
-     * 
+     *
      * @param CssParserModelFactor $factor Factor object
-     * 
+     *
      * @return void
      */
     public function addFactor($factor)
     {
         array_push($this->_factors, $factor);
     }
-    
+
     /**
      * Gets all filtered subnodes of a given node.
-     * 
+     *
      * This function filters all subnodes of a given node that satisfy all factors.
      * A term is actually a list of factors, and a factor can be added by the
      * 'addFactor' function.
-     * 
+     *
      * @param DOMNode $node DOMNode object
-     * 
+     *
      * @return array of DOMElement objects
      */
     public function filter($node)
@@ -68,13 +63,13 @@ class CssParserModelSelector
         }
         return $ret;
     }
-    
+
     /**
      * Gets nodes from a list by a given factor.
-     * 
+     *
      * @param array                $nodes  List of DOMNode objects
      * @param CssParserModelFactor $factor Factor object
-     * 
+     *
      * @return array of DOMElement objects
      */
     private function _getNodesByFactor($nodes, $factor)

@@ -1,25 +1,20 @@
 <?php
 /**
- * This file contains the ArrArgumentsDescriptor class.
- * 
- * PHP Version 5.3
- * 
- * @category Tools_And_Utilities
- * @package  Arr
- * @author   Gonzalo Chumillas <gonzalo@soloproyectos.com>
- * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
- * @link     https://github.com/soloproyectos/core
+ * This file is part of Soloproyectos common library.
+ *
+ * @author  Gonzalo Chumillas <gchumillas@email.com>
+ * @license https://github.com/soloproyectos/php.common-libs/blob/master/LICENSE BSD 2-Clause License
+ * @link    https://github.com/soloproyectos/php.common-libs
  */
 namespace com\soloproyectos\common\arr\arguments;
 
 /**
  * Class ArrArgumentsDescriptor.
- * 
- * @category Tools_And_Utilities
- * @package  ArrArguments
- * @author   Gonzalo Chumillas <gonzalo@soloproyectos.com>
- * @license  https://raw.github.com/soloproyectos/core/master/LICENSE BSD 2-Clause License
- * @link     https://github.com/soloproyectos/core
+ *
+ * @package Arr\Arguments
+ * @author  Gonzalo Chumillas <gchumillas@email.com>
+ * @license https://github.com/soloproyectos/php.common-libs/blob/master/LICENSE BSD 2-Clause License
+ * @link    https://github.com/soloproyectos/php.common-libs
  */
 class ArrArgumentsDescriptor
 {
@@ -28,26 +23,26 @@ class ArrArgumentsDescriptor
      * @var array
      */
     private $_types;
-    
+
     /**
      * Default value.
      * @var mixed
      */
     private $_default;
-    
+
     /**
      * Is a required argument?
      * @var boolean
      */
     private $_isRequired;
-    
+
     /**
      * Constructor.
-     * 
+     *
      * @param array   $types    Variable types
      * @param mixed   $default  Default value
      * @param boolean $required Is a required argument?
-     * 
+     *
      * @return void
      */
     public function __construct($types, $default = null, $required = false)
@@ -56,38 +51,38 @@ class ArrArgumentsDescriptor
         $this->_default = $default;
         $this->_isRequired = $required;
     }
-    
+
     /**
      * Gets default value.
-     * 
+     *
      * @return mixed
      */
     public function getDefault()
     {
         return $this->_default;
     }
-    
+
     /**
      * Is the argument required?
-     * 
+     *
      * @return boolean
      */
     public function isRequired()
     {
         return $this->_isRequired;
     }
-    
+
     /**
      * Does the variable match with this descriptor?
-     * 
+     *
      * @param mixed $var Arbitrary variable
-     * 
+     *
      * @return boolean
      */
     public function match($var)
     {
         $ret = false;
-        
+
         foreach ($this->_types as $type) {
             if (array_search($type, array("*", "mixed")) !== false) {
                 $ret = true;
@@ -110,12 +105,12 @@ class ArrArgumentsDescriptor
             } else {
                 $ret = is_a($var, $type);
             }
-            
+
             if ($ret) {
                 break;
             }
         }
-        
+
         return $ret;
     }
 }
