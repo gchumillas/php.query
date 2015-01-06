@@ -80,20 +80,20 @@ class DomNode extends DomNodeIterable
      * echo $root;
      * ```
      *
-     * @param string $nodeName   Node name (not required)
-     * @param string $document   Document context (not required)
-     * @param array  $attributes List of attributes (not required)
-     * @param string $text       Inner text (not required)
-     * @param string $callback   Callback function (not required)
+     * @param DOMDocument $document   DOM Document (not required)
+     * @param string      $nodeName   Node name (not required)
+     * @param array       $attributes List of attributes (not required)
+     * @param string      $text       Inner text (not required)
+     * @param string      $callback   Callback function (not required)
      */
     public function __construct(
-        $nodeName = null, $document = null, $attributes = null, $text = null, $callback = null
+        $document = null, $nodeName = null, $attributes = null, $text = null, $callback = null
     ) {
         $args = ArrHelper::fetch(
             func_get_args(),
             array(
-                "nodeName" => "string",
                 "document" => "\DOMDocument",
+                "nodeName" => "string",
                 "attributes" => "array",
                 "text" => "scalar",
                 "callback" => "function"
@@ -135,24 +135,27 @@ class DomNode extends DomNodeIterable
     /**
      * Creates an instance from a given string.
      *
-     * @param string $str         Well formed document
-     * @param string $contentType Content Type (default is "text/xml")
+     * @param string      $str         Well formed document
+     * @param string      $contentType Content Type (default is "text/xml")
+     * @param DOMDocument $document    DOM Document (not required)
      *
      * @return DomNode
      */
-    public static function createFromString($str, $contentType = "text/xml")
+    public static function createFromString($str, $contentType = "text/xml", $document = null)
     {
-        $doc = new DOMDocument("1.0");
-        $doc->preserveWhiteSpace = false;
-        $doc->formatOutput = true;
+        if ($document == null) {
+            $document = new DOMDocument("1.0");
+            $document->preserveWhiteSpace = false;
+            $document->formatOutput = true;
+        }
 
         // use internal errors
         $useInternalErrors = libxml_use_internal_errors(true);
 
         if ($contentType == "text/html") {
-            $doc->loadHTML($str);
+            $document->loadHTML($str);
         } else {
-            $doc->loadXML($str);
+            $document->loadXML($str);
         }
 
         // retrieves the errors
@@ -174,8 +177,8 @@ class DomNode extends DomNodeIterable
         }
 
         $node = new static();
-        $node->document = $doc;
-        $node->elements = array($doc->documentElement);
+        $node->document = $document;
+        $node->elements = array($document->documentElement);
 
         return $node;
     }
