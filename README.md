@@ -14,7 +14,7 @@ git clone https://github.com/soloproyectos/phpquery
 and copy the `classes` folder in your preferred location (optionally, rename it). Finally, copy and paste the following PHP code:
 ```PHP
 require_once "< YOUR PREFERRED LOCATION >/classes/autoload.php";
-use com\soloproyectos\common\dom\DomNode;
+use com\soloproyectos\common\dom\node\DomNode;
 ```
 
 And that's all. You are ready to use this library.
