@@ -25,12 +25,15 @@ Methods
 #### Create nodes from a given source:
   * `DomNode::createFromDocument($doc)`: creates an instance from a Document object
   * `DomNode::createFromElement($element)`: creates an instance from a DOMElement object
+  * `DomNode::createFromNode($node)`: creates an instance from a DomNode object
   * `DomNode::createFromString($string)`: creates an instance from a string
 
 #### Basic methods:
+  * `DomNode::document()`: gets the internal DOMDocument instance
   * `DomNode::elements()`: gets internal DOM elements
   * `DomNode::name()`: gets the node name
   * `DomNode::parent()`: gets the parent node or a `null` value
+  * `DomNode::root()`: gets the root node
   * `DomNode::query($cssSelectors)`: finds nodes using CSS selectors
   * `DomNode::xpath($expression)`: finds nodes using XPath expressions
   * `DomNode::remove()`: removes the node from the document
