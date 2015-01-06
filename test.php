@@ -1,6 +1,6 @@
 <?php
 require_once "classes/autoload.php";
-use com\soloproyectos\common\dom\DomNode;
+use com\soloproyectos\common\dom\node\DomNode;
 header("Content-type: text/plain; charset=UTF-8");
 
 $root = DomNode::createFromString(file_get_contents("test.xml"));
