@@ -55,16 +55,19 @@ class DomNode extends DomNodeIterable
     /**
      * Creates a node.
      *
-     * Examples:
+     * Example 1:
      * ```php
      * // creates a simple node with two attributes and inner text
      * $item = new DomNode("item", array("id" => 101, "title" => "Title 101"), "Inner text here...");
      * echo $item;
+     * ```
      *
+     * Example 2:
+     * ```php
      * // creates a complex node
      * // in this case we use a callback function to add complex structures into the node
      * $root = new DomNode("root", function ($target) {
-     * // adds three subnodes
+     *     // adds three subnodes
      *     for ($i = 0; $i < 3; $i++) {
      *         $target->append(
      *              new DomNode("item", array("id" => $i, "title" => "Title $i"), "This is the item $i")
@@ -78,6 +81,13 @@ class DomNode extends DomNodeIterable
      *     $target->prepend("<text>This text is added to the beginning</text>");
      * });
      * echo $root;
+     * ```
+     * Example 3:
+     * ```php
+     * // if not specified, DomNode creates a default DOMDocument instance. But you can pass to the
+     * // constructor a given document.
+     * $doc = new DOMDocument("1.0", "utf-8");
+     * $root = new DomNode($doc, "root", "Inner text...");
      * ```
      *
      * @param DOMDocument $document   DOM Document (not required)
