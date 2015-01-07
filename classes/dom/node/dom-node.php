@@ -88,6 +88,7 @@ class DomNode extends DomNodeIterable
      * // constructor a given document.
      * $doc = new DOMDocument("1.0", "utf-8");
      * $root = new DomNode($doc, "root", "Inner text...");
+     * echo $doc->saveXML();
      * ```
      *
      * @param DOMDocument $document   DOM Document (not required)
