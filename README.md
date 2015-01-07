@@ -213,5 +213,5 @@ You can concatenate multiple methods in the same line:
 $xml = DomNode::createFromString('<root><item id="101" /><item id="102" /><item id="103" /></root>');
 
 // changes and prints the node in the same line
-echo $xml->query("item[id = 102]")->attr("title", "Item 101")->text("Some text...")->append("<subitem />");
+echo $xml->query("item[id = 102]")->attr("title", "Item 102")->text("Some text...")->append("<subitem />");
 ```
