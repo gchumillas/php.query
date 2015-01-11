@@ -23,7 +23,6 @@ Methods
 -------
 
 #### Create nodes from a given source:
-  * `DomNode::createFromDocument($doc)`: creates an instance from a Document object
   * `DomNode::createFromElement($element)`: creates an instance from a DOMElement object
   * `DomNode::createFromNode($node)`: creates an instance from a DomNode object
   * `DomNode::createFromString($string)`: creates an instance from a string
@@ -37,10 +36,10 @@ Methods
   * `DomNode::query($cssSelectors)`: finds nodes using CSS selectors
   * `DomNode::xpath($expression)`: finds nodes using XPath expressions
   * `DomNode::remove()`: removes the node from the document
+  * `DomNode::clear()`: removes all child nodes
   * `DomNode::data($name, [$value])`: gets or sets arbitrary data
   * `DomNode::append($string)`: appends inner XML text
   * `DomNode::prepend($string)`: prepends inner XML text
-  * `DomNode::clear()`: removes all child nodes
   * `DomNode::html([$string])`: gets or sets inner XML text
   * `DomNode::text([$string])`: gets or sets inner text
 
