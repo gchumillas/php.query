@@ -92,14 +92,10 @@ echo $root;
 // creates an instance from a string
 $xml = DomNode::createFromString('<root><item id="101" /><item id="102" /><item id="103" /></root>');
 
-// creates an instance from a document
+// creates an instance from a given DOMElement
 $doc = new DOMDocument("1.0", "UTF-8");
 $doc->loadXML('<root><item id="101" /><item id="102" /><item id="103" /></root>');
-$xml = DomNode::createFromDocument($doc);
-
-// creates an instance from a given DOMElement
-// $element is a DOMElement object
-$xml = DomNode::createFromElement($element);
+$xml = DomNode::createFromElement($doc->documentElement);
 ```
 
 #### Use the `query` method
