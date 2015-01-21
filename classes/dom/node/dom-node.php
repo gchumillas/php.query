@@ -55,19 +55,16 @@ class DomNode extends DomNodeIterable
     /**
      * Creates a node.
      *
-     * Example 1:
+     * Examples:
      * ```php
      * // creates a simple node with two attributes and inner text
      * $item = new DomNode("item", array("id" => 101, "title" => "Title 101"), "Inner text here...");
      * echo $item;
-     * ```
      *
-     * Example 2:
-     * ```php
      * // creates a complex node
      * // in this case we use a callback function to add complex structures into the node
      * $root = new DomNode("root", function ($target) {
-     *     // adds three subnodes
+     * // adds three subnodes
      *     for ($i = 0; $i < 3; $i++) {
      *         $target->append(
      *              new DomNode("item", array("id" => $i, "title" => "Title $i"), "This is the item $i")
@@ -82,29 +79,21 @@ class DomNode extends DomNodeIterable
      * });
      * echo $root;
      * ```
-     * Example 3:
-     * ```php
-     * // if not specified, DomNode creates a default DOMDocument instance. But you can pass to the
-     * // constructor a given document.
-     * $doc = new DOMDocument("1.0", "utf-8");
-     * $root = new DomNode($doc, "root", "Inner text...");
-     * echo $doc->saveXML();
-     * ```
      *
-     * @param DOMDocument $document   DOM Document (not required)
-     * @param string      $nodeName   Node name (not required)
-     * @param array       $attributes List of attributes (not required)
-     * @param string      $text       Inner text (not required)
-     * @param string      $callback   Callback function (not required)
+     * @param string $nodeName   Node name (not required)
+     * @param string $document   Document context (not required)
+     * @param array  $attributes List of attributes (not required)
+     * @param string $text       Inner text (not required)
+     * @param string $callback   Callback function (not required)
      */
     public function __construct(
-        $document = null, $nodeName = null, $attributes = null, $text = null, $callback = null
+        $nodeName = null, $document = null, $attributes = null, $text = null, $callback = null
     ) {
         $args = ArrHelper::fetch(
             func_get_args(),
             array(
-                "document" => "\DOMDocument",
                 "nodeName" => "string",
+                "document" => "\DOMDocument",
                 "attributes" => "array",
                 "text" => "scalar",
                 "callback" => "function"
@@ -146,27 +135,24 @@ class DomNode extends DomNodeIterable
     /**
      * Creates an instance from a given string.
      *
-     * @param string      $str         Well formed document
-     * @param string      $contentType Content Type (default is "text/xml")
-     * @param DOMDocument $document    DOM Document (not required)
+     * @param string $str         Well formed document
+     * @param string $contentType Content Type (default is "text/xml")
      *
      * @return DomNode
      */
-    public static function createFromString($str, $contentType = "text/xml", $document = null)
+    public static function createFromString($str, $contentType = "text/xml")
     {
-        if ($document == null) {
-            $document = new DOMDocument("1.0");
-            $document->preserveWhiteSpace = false;
-            $document->formatOutput = true;
-        }
+        $doc = new DOMDocument("1.0");
+        $doc->preserveWhiteSpace = false;
+        $doc->formatOutput = true;
 
         // use internal errors
         $useInternalErrors = libxml_use_internal_errors(true);
 
         if ($contentType == "text/html") {
-            $document->loadHTML($str);
+            $doc->loadHTML($str);
         } else {
-            $document->loadXML($str);
+            $doc->loadXML($str);
         }
 
         // retrieves the errors
@@ -188,8 +174,8 @@ class DomNode extends DomNodeIterable
         }
 
         $node = new static();
-        $node->document = $document;
-        $node->elements = array($document->documentElement);
+        $node->document = $doc;
+        $node->elements = array($doc->documentElement);
 
         return $node;
     }

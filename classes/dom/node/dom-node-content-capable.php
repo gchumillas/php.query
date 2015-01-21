@@ -154,9 +154,13 @@ trait DomNodeContentCapable
      */
     private function _setInnerText($value)
     {
-        foreach ($this->elements() as $element) {
-            $doc = $element->ownerDocument;
-            $element->appendChild($doc->createTextNode($value));
+        $this->clear();
+        
+        if (!TextHelper::isEmpty($value)) {
+            foreach ($this->elements() as $element) {
+                $doc = $element->ownerDocument;
+                $element->appendChild($doc->createTextNode($value));
+            }
         }
 
         return $this;
@@ -196,14 +200,16 @@ trait DomNodeContentCapable
     {
         $this->clear();
 
-        foreach ($this->elements() as $element) {
-            $doc = $element->ownerDocument;
-            $fragment = $doc->createDocumentFragment();
-            @$fragment->appendXML($value);
-            $node = @$element->appendChild($fragment);
+        if (!TextHelper::isEmpty($value)) {
+            foreach ($this->elements() as $element) {
+                $doc = $element->ownerDocument;
+                $fragment = $doc->createDocumentFragment();
+                @$fragment->appendXML($value);
+                $node = @$element->appendChild($fragment);
 
-            if ($node === false) {
-                throw new DomNodeException("Invalid XML fragment");
+                if ($node === false) {
+                    throw new DomNodeException("Invalid XML fragment");
+                }
             }
         }
 
