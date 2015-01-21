@@ -197,22 +197,6 @@ class DomNode extends DomNodeIterable
     }
 
     /**
-     * Creates an instance from a given DOM document.
-     *
-     * @param DOMDocument $document DOM document
-     *
-     * @return DomNode
-     */
-    public static function createFromDocument($document)
-    {
-        $node = new static();
-        $node->document = $document;
-        $node->elements = array($document->documentElement);
-
-        return $node;
-    }
-
-    /**
      * Creates an instance from a given DomNode object.
      *
      * @param DomNode $node Node
