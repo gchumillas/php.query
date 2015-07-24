@@ -3,8 +3,7 @@ phpQuery
 
 A library for manipulating and traversing XML documents in an easy and intuitive way. This library is inspired by the jQuery library and borrows some interesting ideas, like chaining.
 
-**Important note:**
-This library is obsolete. Please use the following library instead:  
+**Important note:** This library is obsolete. Please use the following library instead:  
 https://github.com/soloproyectos-php/dom-node
 
 Installation
