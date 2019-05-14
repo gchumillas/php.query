@@ -1,4 +1,4 @@
-phpQuery
+PHPQuery
 ========
 
 A library to manipulate and parse DOM documents in an easy and intuitive way. This library was inspired by the jQuery library and borrows some interesting ideas, like chaining.
